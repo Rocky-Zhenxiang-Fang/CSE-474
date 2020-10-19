@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspace>
+    <project>
+        <path>$WS_DIR$\BeforeTask\beforeTask.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\Task1\task1.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\Task2\task2.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\Task1_b\task_b.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\TestHardware.ewp</path>
+    </project>
+    <batchBuild />
+</workspace>
