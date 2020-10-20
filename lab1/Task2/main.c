@@ -54,18 +54,36 @@ unsigned char sys_switch_pressed ( void ) {
 }
 
 
+void greenOn(void) {
+  GPIODATA_L |= 0x10;
+}
+
+void greenOff(void) {
+  GPIODATA_L &= ~0x10;
+}
+
+void redOn(void) {
+  GPIODATA_L |= 0x04;
+}
+
+void redOff(void) {
+  GPIODATA_L &= ~0x04;
+}
+
+void yellowOn(void) {
+  GPIODATA_L |= 0x08;
+}
+
+void yellowOff(void) {
+  GPIODATA_L &= ~0x08;
+}
+
 // turn off all system
 void sysOff ( void )
 {
-  GPIODATA_L = 0x0 ;
-}
-
-
-// turn on greenLED and turn off all other
-void onlyGreenOn ( void )
-{
-    GPIODATA_L |= 0x10;
-    GPIODATA_L &= 0x13;
+  redOff();
+  greenOff();
+  yellowOff();
 }
 
 
@@ -92,9 +110,11 @@ void TickTrafficLight() {
       sysOff();
       break;
     case TrafficLight_go:
-      onlyGreenOn();
+      greenOn();
+      redOn();
+      yellowOn();
       break;
-      
+
   default:
     break;
   } 
