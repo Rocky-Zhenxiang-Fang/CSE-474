@@ -31,15 +31,28 @@ void LED_init ( void )
   GPIODATA_L &= ~ 0x1C ;
 }
 
-unsigned long sys_switch_input ( void )
-{
-  return ( GPIODATA_L & 0x1 ) ; // 0x1 (pressed) or 0 (not pressed)
+unsigned char sys_switch_pressed ( void ) {
+  if (GPIODATA_L & 0x1 == 0x1) {
+    while (GPIODATA_L & 0x1 == 0x1) {}  // only proceedes if the button is released
+    return 1;
+  }
+  else
+  {
+     return 0; 
+  }
+}
+  
+ unsigned char ped_switch_pressed ( void ) {
+  if (GPIODATA_L & 0x2 == 0x2) {
+    while (GPIODATA_L & 0x2 == 0x2) {}  // only proceedes if the button is released
+    return 1;
+  }
+  else
+  {
+     return 0; 
+  }
 }
 
-unsigned long ped_switch_input ( void )
-{
-  return ( GPIODATA_L & 0x2 ) >> 1 ; // 0x1 (pressed) or 0 (not pressed)
-}
 
 // turn off all system
 void sysOff ( void )
@@ -57,37 +70,34 @@ void onlyGreenOn ( void )
 
 
 void TickTrafficLight() {
-    switch (Light_State) { // Transitions
-    case TrafficLight_off: // Initial transition
-        if (sys_switch_input() == 0x1) {
-            while (sys_switch_input() == 0x1){
-                Light_State = TrafficLight_go;
-            }
-        }
-        break;
-    case TrafficLight_go: 
-        if (sys_switch_input() == 0x1) {
-            while (sys_switch_input() == 0x1){
-                Light_State = TrafficLight_off; 
-            }
-        }
-        break;
-    
-    default:
-        break;
-    }
-
-    switch (Light_State) { // Action
+  switch (Light_State) 
+  {
     case TrafficLight_off:
-        sysOff();
-        break;
+      if (sys_switch_pressed() == 1) {
+        Light_State = TrafficLight_go;
+      }
+      break;
     case TrafficLight_go:
-        onlyGreenOn();
-        break;
-    default:
-        break;
-    }
+      if (sys_switch_pressed() == 1) {
+        Light_State = TrafficLight_off;
+      }
     
+    default:
+      break;
+  }
+
+  switch (Light_State)
+  {
+    case TrafficLight_off:
+      sysOff();
+      break;
+    case TrafficLight_go:
+      onlyGreenOn();
+      break;
+      
+  default:
+    break;
+  } 
 }
 int main()
 {
