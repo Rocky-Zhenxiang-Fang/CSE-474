@@ -32,8 +32,8 @@ void LED_init ( void )
 }
 
 unsigned char sys_switch_pressed ( void ) {
-  if (GPIODATA_L & 0x1 == 0x1) {
-    while (GPIODATA_L & 0x1 == 0x1) {}  // only proceedes if the button is released
+  if ((GPIODATA_L & 0x1) == 0x1) {
+    while ((GPIODATA_L & 0x1) == 0x1) {}  // only proceedes if the button is released
     return 1;
   }
   else
@@ -43,8 +43,8 @@ unsigned char sys_switch_pressed ( void ) {
 }
   
  unsigned char ped_switch_pressed ( void ) {
-  if (GPIODATA_L & 0x2 == 0x2) {
-    while (GPIODATA_L & 0x2 == 0x2) {}  // only proceedes if the button is released
+  if ((GPIODATA_L & 0x2) == 0x2) {
+    while ((GPIODATA_L & 0x2) == 0x2) {}  // only proceedes if the button is released
     return 1;
   }
   else
@@ -52,7 +52,6 @@ unsigned char sys_switch_pressed ( void ) {
      return 0; 
   }
 }
-
 
 void greenOn(void) {
   GPIODATA_L |= 0x10;
@@ -91,33 +90,68 @@ void TickTrafficLight() {
   switch (Light_State) 
   {
     case TrafficLight_off:
-      if (sys_switch_pressed() == 1) {
+      sysOff();
+
+      // transition
+      if (sys_switch_pressed() == 1) { // turn on the system
         Light_State = TrafficLight_go;
-      }
+      } 
       break;
+
     case TrafficLight_go:
-      if (sys_switch_pressed() == 1) {
-        Light_State = TrafficLight_off;
+      greenOn();
+      redOff();
+      yellowOff();
+
+      // transition
+      for (int i = 0; i < 1000000; i += 1) { // waits before turning to red light
+        if (sys_switch_pressed() == 1) {
+          Light_State = TrafficLight_off;
+          return;
+        }
+        if (ped_switch_pressed() == 1){ // pedstrin shows up
+          Light_State = TrafficLight_warn; 
+          return;
+        }
       }
-    
+      Light_State = TrafficLight_stop; // no iteruption, turns to red light
+      break; 
+
+    case TrafficLight_warn:
+      greenOff();
+      redOff();
+      yellowOn();
+
+      // transition
+      for (int i = 0; i < 1000000; i += 1) { // waits before turning to red light
+        if (sys_switch_pressed() == 1) {
+          Light_State = TrafficLight_off;
+          return;
+        }
+      }
+      Light_State = TrafficLight_stop; 
+      break;
+
+    case TrafficLight_stop:
+      greenOff();
+      redOn();
+      yellowOff();
+
+      // transition
+      for (int i = 0; i < 1000000; i += 1) { // waits before turning to red light
+        if (sys_switch_pressed() == 1) {
+          Light_State = TrafficLight_off;
+          return;
+        }
+      }
+      Light_State = TrafficLight_go; 
+      break;
+
     default:
+      Light_State = TrafficLight_off; 
       break;
   }
 
-  switch (Light_State)
-  {
-    case TrafficLight_off:
-      sysOff();
-      break;
-    case TrafficLight_go:
-      greenOn();
-      redOn();
-      yellowOn();
-      break;
-
-  default:
-    break;
-  } 
 }
 int main()
 {

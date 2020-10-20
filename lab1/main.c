@@ -30,15 +30,37 @@ void LED_init ( void )
   GPIODATA_L &= ~ 0x1C ;
 }
 
-unsigned long sys_switch_input ( void )
-{
-  return ( GPIODATA_L & 0x1 ) ; // 0x1 (pressed) or 0 (not pressed)
+unsigned char sys_switch_pressed ( void ) {
+  if (GPIODATA_L & 0x1 == 0x1) {
+    while (GPIODATA_L & 0x1 == 0x1) {}
+    return 1;
+  }
+  else
+  {
+     return 0; 
+  }
 }
 
-unsigned long ped_switch_input ( void )
+unsigned long switch_input ( void )
 {
   return ( GPIODATA_L & 0x2 ) ; // 0x2 (pressed) or 0 (not pressed)
 }
+  
+ unsigned char ped_switch_pressed ( void ) {
+  if ((GPIODATA_L & 0x2) == 0x2) {
+    while ((GPIODATA_L & 0x2) == 0x2) {}  // only proceedes if the button is released
+    return 1;
+  }
+  else
+  {
+    int res = 0;
+    int* resPointer;
+    res = GPIODATA_L & 0x2; 
+    resPointer = &res;
+    return 0; 
+  }
+}
+
 
 
 // turn on LED connected to PC4
@@ -60,10 +82,10 @@ int main()
     LED_init();
     
   while (1) {
-    if (sys_switch_input() == 0x1) {
+    if (sys_switch_pressed() == 1) {
         LED_on();
     }
-    if (ped_switch_input() == 0x2) {
+    if (ped_switch_pressed() == 0x1) {
         LED_off();
     }
   }
