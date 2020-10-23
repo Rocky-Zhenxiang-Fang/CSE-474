@@ -13,7 +13,6 @@
 #define GPIODATA_F_0 (*((volatile uint32_t *)0x4005D004))
 #define GPIODATA_F_4 (*((volatile uint32_t *)0x4005D040))
 
-
 #define GPIODIR_J (*((volatile uint32_t *)0x40060400))
 #define GPIOPUR_J (*((volatile uint32_t *)0x40060510))
 #define GPIOLOCK_J (*((volatile uint32_t *)0x40060520))
