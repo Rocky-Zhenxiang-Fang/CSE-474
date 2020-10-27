@@ -1,14 +1,14 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.11.3.13950/W32 for ARM                11/Oct/2020  22:35:29
+# IAR ELF Linker V8.11.3.13950/W32 for ARM                23/Oct/2020  18:18:55
 # Copyright 2007-2017 IAR Systems AB.
 #
-#    Output file  =  C:\CSE 474\lab1\Task1\Debug\Exe\task1.out
-#    Map file     =  C:\CSE 474\lab1\Task1\Debug\List\task1.map
+#    Output file  =  C:\Course\CSE 474\lab1\Task1\Debug\Exe\task1.out
+#    Map file     =  C:\Course\CSE 474\lab1\Task1\Debug\List\task1.map
 #    Command line =  
-#        -f C:\Users\STUDEN~1\AppData\Local\Temp\EW1AFF.tmp ("C:\CSE
-#        474\lab1\Task1\Debug\Obj\main_a.o" -o "C:\CSE
-#        474\lab1\Task1\Debug\Exe\task1.out" --map "C:\CSE
+#        -f C:\Users\rocky\AppData\Local\Temp\EW772E.tmp ("C:\Course\CSE
+#        474\lab1\Task1\Debug\Obj\main_a.o" -o "C:\Course\CSE
+#        474\lab1\Task1\Debug\Exe\task1.out" --map "C:\Course\CSE
 #        474\lab1\Task1\Debug\List\task1.map" --config "C:\Program Files
 #        (x86)\IAR Systems\Embedded Workbench
 #        8.0\arm\config\linker\TexasInstruments\TM4C1294NC.icf" --semihosting
@@ -51,17 +51,17 @@ define block HEAP with size = 64K, alignment = 8 { };
   .intvec   ro code  0x00000000    0x40  vector_table_M.o [5]
                    - 0x00000040    0x40
 
-"P1":                             0x194
-  .text     ro code  0x00000040   0x120  main_a.o [1]
-  .text     ro code  0x00000160    0x22  fpinit_M.o [4]
-  .text     ro code  0x00000182     0x2  vector_table_M.o [5]
-  .text     ro code  0x00000184    0x1a  cmain.o [5]
-  .text     ro code  0x0000019e     0x4  low_level_init.o [3]
-  .text     ro code  0x000001a2     0x4  exit.o [3]
-  .text     ro code  0x000001a8     0xa  cexit.o [5]
-  .text     ro code  0x000001b4    0x14  exit.o [6]
-  .text     ro code  0x000001c8     0xc  cstartup_M.o [5]
-                   - 0x000001d4   0x194
+"P1":                             0x174
+  .text     ro code  0x00000040   0x100  main_a.o [1]
+  .text     ro code  0x00000140    0x22  fpinit_M.o [4]
+  .text     ro code  0x00000162     0x2  vector_table_M.o [5]
+  .text     ro code  0x00000164    0x1a  cmain.o [5]
+  .text     ro code  0x0000017e     0x4  low_level_init.o [3]
+  .text     ro code  0x00000182     0x4  exit.o [3]
+  .text     ro code  0x00000188     0xa  cexit.o [5]
+  .text     ro code  0x00000194    0x14  exit.o [6]
+  .text     ro code  0x000001a8     0xc  cstartup_M.o [5]
+                   - 0x000001b4   0x174
 
 "P2":                            0x8000
   CSTACK             0x20000000  0x8000  <Block>
@@ -76,16 +76,16 @@ define block HEAP with size = 64K, alignment = 8 { };
 
     Module            ro code  rw data
     ------            -------  -------
-C:\CSE 474\lab1\Task1\Debug\Obj: [1]
-    main_a.o              288
+C:\Course\CSE 474\lab1\Task1\Debug\Obj: [1]
+    main_a.o              256
     ----------------------------------
-    Total:                288
+    Total:                256
 
 command line: [2]
     ----------------------------------
     Total:
 
-dl7M_tln.a: [3]
+dl7M_tlf.a: [3]
     exit.o                  4
     low_level_init.o        4
     ----------------------------------
@@ -112,7 +112,7 @@ shb_l.a: [6]
     Gaps                    4
     Linker created              32 768
 --------------------------------------
-    Grand Total:          468   32 768
+    Grand Total:          436   32 768
 
 
 *******************************************************************************
@@ -121,40 +121,39 @@ shb_l.a: [6]
 
 Entry                      Address  Size  Type      Object
 -----                      -------  ----  ----      ------
-?main                   0x00000185        Code  Gb  cmain.o [5]
+?main                   0x00000165        Code  Gb  cmain.o [5]
 CSTACK$$Base            0x20000000         --   Gb  - Linker created -
 CSTACK$$Limit           0x20008000         --   Gb  - Linker created -
-Delay                   0x0000006d   0xe  Code  Gb  main_a.o [1]
+Delay                   0x000000b3   0xe  Code  Gb  main_a.o [1]
 Region$$Table$$Base     0x00000000         --   Gb  - Linker created -
 Region$$Table$$Limit    0x00000000         --   Gb  - Linker created -
-SetLEDs                 0x0000007b  0x32  Code  Gb  main_a.o [1]
-SetUp                   0x00000041  0x2c  Code  Gb  main_a.o [1]
-TurnOffAll              0x00000105  0x1a  Code  Gb  main_a.o [1]
-TurnOffOneByOne         0x000000d9  0x2c  Code  Gb  main_a.o [1]
-TurnOnOneByOne          0x000000ad  0x2c  Code  Gb  main_a.o [1]
-__cmain                 0x00000185        Code  Gb  cmain.o [5]
-__exit                  0x000001b5  0x14  Code  Gb  exit.o [6]
-__iar_init_vfp          0x00000161        Code  Gb  fpinit_M.o [4]
-__iar_program_start     0x000001c9        Code  Gb  cstartup_M.o [5]
+SetLEDs                 0x00000081  0x32  Code  Gb  main_a.o [1]
+SetUp                   0x00000055  0x2c  Code  Gb  main_a.o [1]
+TurnOffOneByOne         0x000000ed  0x2c  Code  Gb  main_a.o [1]
+TurnOnOneByOne          0x000000c1  0x2c  Code  Gb  main_a.o [1]
+__cmain                 0x00000165        Code  Gb  cmain.o [5]
+__exit                  0x00000195  0x14  Code  Gb  exit.o [6]
+__iar_init_vfp          0x00000141        Code  Gb  fpinit_M.o [4]
+__iar_program_start     0x000001a9        Code  Gb  cstartup_M.o [5]
 __iar_systems$$module {Abs}
                         0x00000001        Data  Gb  command line/config [2]
-__low_level_init        0x0000019f   0x4  Code  Gb  low_level_init.o [3]
+__low_level_init        0x0000017f   0x4  Code  Gb  low_level_init.o [3]
 __vector_table          0x00000000        Data  Gb  vector_table_M.o [5]
-_call_main              0x00000191        Code  Gb  cmain.o [5]
-_exit                   0x000001a9        Code  Gb  cexit.o [5]
-_main                   0x0000019b        Code  Gb  cmain.o [5]
-exit                    0x000001a3   0x4  Code  Gb  exit.o [3]
-main                    0x00000149  0x18  Code  Gb  main_a.o [1]
+_call_main              0x00000171        Code  Gb  cmain.o [5]
+_exit                   0x00000189        Code  Gb  cexit.o [5]
+_main                   0x0000017b        Code  Gb  cmain.o [5]
+exit                    0x00000183   0x4  Code  Gb  exit.o [3]
+main                    0x00000041  0x14  Code  Gb  main_a.o [1]
 
 
-[1] = C:\CSE 474\lab1\Task1\Debug\Obj
+[1] = C:\Course\CSE 474\lab1\Task1\Debug\Obj
 [2] = command line
-[3] = dl7M_tln.a
+[3] = dl7M_tlf.a
 [4] = m7M_tls.a
 [5] = rt7M_tl.a
 [6] = shb_l.a
 
-     468 bytes of readonly  code memory
+     436 bytes of readonly  code memory
   32 768 bytes of readwrite data memory
 
 Errors: none

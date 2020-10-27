@@ -23,9 +23,9 @@ param([String]$debugfile = "");
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\CSE 474\lab1\Task1_b\settings\task_b.Debug.general.xcl" --backend -f "C:\CSE 474\lab1\Task1_b\settings\task_b.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\Course\CSE 474\lab1\Task1_b\settings\task_b.Debug.general.xcl" --backend -f "C:\Course\CSE 474\lab1\Task1_b\settings\task_b.Debug.driver.xcl" 
 }
 else
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\CSE 474\lab1\Task1_b\settings\task_b.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\CSE 474\lab1\Task1_b\settings\task_b.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\Course\CSE 474\lab1\Task1_b\settings\task_b.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\Course\CSE 474\lab1\Task1_b\settings\task_b.Debug.driver.xcl" 
 }

@@ -2030,9 +2030,9 @@
         </settings>
     </configuration>
     <file>
-        <name>$PROJ_DIR$\..\Task1\lab1.h</name>
+        <name>$PROJ_DIR$\main_task1_b.c</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\main.c</name>
+        <name>$PROJ_DIR$\Task_1_b_header.h</name>
     </file>
 </project>
