@@ -35,8 +35,7 @@
 #define LED1 0x2  // PN1 
 #define LED2 0x1  // PN0
 #define LED3 0x10 // PF4
-#define LED4 0x1  // PF0
-#define TACDIR 0x10 
+#define LED4 0x1  // PF0 
 #define TATORIS 0x1
 
 //Sets up GPIO Ports

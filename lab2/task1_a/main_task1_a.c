@@ -21,7 +21,6 @@ int main(void) {
 
 void SetUpGPIO(void) {
   volatile unsigned short delay = 0;
-  RCGCGPIO = 0x0; // Disable all GPIO ports
   RCGCGPIO |= 0x1020; // Enable PortF(led3, 4) and PortN(led1, 2) GPIO
   delay++; // Delay 2 more cycles before access Timer registers
   delay++; // Refer to Page. 756 of Datasheet for info
@@ -34,14 +33,12 @@ void SetUpGPIO(void) {
 }
 
 void SetUpTimer(void) {
-    RCGCTIMER = 0x0; // Disables all timer
-
     //step 1
-    RCGCTIMER |= 0x1; // Enables GPtimer 0
+    RCGCTIMER |= (1<<0); // Enables GPtimer 0, sets 1 at field 0
 
     //step 2
-    GPTMCTL_TIMER_0 &= ~0x1; //Disables timer 0_A
-    GPTMCTL_TIMER_0 &= ~0x100; //Disables timer 0_B 
+    GPTMCTL_TIMER_0 &= ~(1<<0); //Disables timer 0_A, set 0 to field 0
+    GPTMCTL_TIMER_0 &= ~(1<<8); //Disables timer 0_B, set 0 to field 8
     
     //step 3
     GPTMCFG_TIMER_0 = 0x00000000; 
@@ -50,23 +47,23 @@ void SetUpTimer(void) {
     GPTMCFG_TIMER_0 = 0x0; // select 32-bit mode
 
     //step 5
-    GPTMTAMR_TIMER_0 &= ~0x1; // Set bit 0 to 0
-    GPTMTAMR_TIMER_0 |= 0x2; // Set bit 1 to 1
+    GPTMTAMR_TIMER_0 |= (0x2<<0); 
 
     //step 6
-    GPTMTAMR_TIMER_0 &= ~TACDIR; //Set TACDIR bit to 0 to count down
+    GPTMTAMR_TIMER_0 &= ~(1<<4); //Set TACDIR bit to 0 to count down, field 4
+  
 
     //step 7
-    GPTMTAILR_TIMER_0 = 16000000; 
+    GPTMTAILR_TIMER_0 = 0x00F42400; // 16000000 
 
     //step 9
-    GPTMCTL_TIMER_0 |= 0x1; //Enables timer 0_A
+    GPTMCTL_TIMER_0 |= (1<<0); //Enables timer 0_A
 
 }
 
 void Delay(void) {
-    while (GPTMRIS_TIMER_0 & TATORIS != 1) {}
-    GPTMICR_TIMER_0 |= 0x1;  
+    while ((GPTMRIS_TIMER_0 & TATORIS) != 1) {}
+    GPTMICR_TIMER_0 |= (1<<0);  
 }
 
 void TurnOnOneByOne(void) {
