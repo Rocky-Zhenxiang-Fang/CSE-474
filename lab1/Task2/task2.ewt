@@ -2314,9 +2314,9 @@
         </settings>
     </configuration>
     <file>
-        <name>$PROJ_DIR$\lab1.h</name>
+        <name>$PROJ_DIR$\main_task2.c</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\main.c</name>
+        <name>$PROJ_DIR$\Task_2_header.h</name>
     </file>
 </project>
