@@ -47,7 +47,7 @@ void SetUpTimer(void) {
     GPTMCFG_TIMER_0 = 0x0; // select 32-bit mode
 
     //step 5
-    GPTMTAMR_TIMER_0 |= (0x2<<0); // select periodic mode
+    GPTMTAMR_TIMER_0 |= (0x2<<0); 
 
     //step 6
     GPTMTAMR_TIMER_0 &= ~(1<<4); //Set TACDIR bit to 0 to count down, field 4
