@@ -12,5 +12,8 @@
     <project>
         <path>$WS_DIR$\task2_b\task2_b.ewp</path>
     </project>
+    <project>
+        <path>$WS_DIR$\task2_c\task2_c.ewp</path>
+    </project>
     <batchBuild />
 </workspace>

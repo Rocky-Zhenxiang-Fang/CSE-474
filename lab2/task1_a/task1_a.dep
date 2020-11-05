@@ -5,48 +5,42 @@
     <configuration>
         <name>Debug</name>
         <outputs>
-            <file>$PROJ_DIR$\Debug\Exe\task1_a.out</file>
-            <file>$PROJ_DIR$\Debug\Obj\main_task1_a.__cstat.et</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
-            <file>$PROJ_DIR$\Debug\List\task1_a.map</file>
-            <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-            <file>$PROJ_DIR$\main_task1_a.c</file>
-            <file>$PROJ_DIR$\task1_a_header.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\main_task1_a.o</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
             <file>$TOOLKIT_DIR$\lib\dl7M_tlf.a</file>
-            <file>$TOOLKIT_DIR$\config\linker\TexasInstruments\TM4C1292NC.icf</file>
             <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\main_task1_a.pbi</file>
             <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
             <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+            <file>$TOOLKIT_DIR$\config\linker\TexasInstruments\TM4C1292NC.icf</file>
+            <file>$PROJ_DIR$\Debug\Obj\main_task1_a.pbi</file>
+            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+            <file>$PROJ_DIR$\main_task1_a.c</file>
+            <file>$PROJ_DIR$\Debug\Obj\main_task1_a.__cstat.et</file>
+            <file>$PROJ_DIR$\Debug\Obj\main_task1_a.o</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+            <file>$PROJ_DIR$\task1_a_header.h</file>
+            <file>$PROJ_DIR$\Debug\Exe\task1_a.out</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</file>
+            <file>$PROJ_DIR$\Debug\List\task1_a.map</file>
+            <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
         </outputs>
         <file>
-            <name>$PROJ_DIR$\Debug\Exe\task1_a.out</name>
+            <name>[ROOT_NODE]</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 3</file>
+                    <file> 18 13</file>
                 </tool>
             </outputs>
-            <inputs>
-                <tool>
-                    <name>ILINK</name>
-                    <file> 14 10 19 18 4 13</file>
-                </tool>
-            </inputs>
         </file>
         <file>
             <name>$PROJ_DIR$\main_task1_a.c</name>
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 17</file>
+                    <file> 6</file>
                 </tool>
                 <tool>
                     <name>ICCARM</name>
@@ -54,28 +48,34 @@
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 1</file>
+                    <file> 9</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 16 11 8 15 12 2 7 9 5</file>
+                    <file> 7 11 15 1 4 16 12 17 14</file>
                 </tool>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 2 8 16 11 9 5 15 12 7</file>
+                    <file> 16 15 7 11 17 14 1 4 12</file>
                 </tool>
             </inputs>
         </file>
         <file>
-            <name>[ROOT_NODE]</name>
+            <name>$PROJ_DIR$\Debug\Exe\task1_a.out</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 3 0</file>
+                    <file> 18</file>
                 </tool>
             </outputs>
+            <inputs>
+                <tool>
+                    <name>ILINK</name>
+                    <file> 5 10 3 2 19 0</file>
+                </tool>
+            </inputs>
         </file>
     </configuration>
     <configuration>
