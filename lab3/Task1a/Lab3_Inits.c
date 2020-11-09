@@ -7,6 +7,7 @@
 
 // STEP 0a: Include your header file here
 // YOUR CUSTOM HEADER FILE HERE
+#include "task1_a_header.h"
 
 int PLL_Init(enum frequency freq) {
     // Do NOT modify this function.
@@ -60,6 +61,16 @@ void LED_Init(void) {
   // GPIO pins.
 
   // YOUR CODE HERE
+   volatile unsigned short delay = 0;
+   RCGCGPIO |= 0x1020; // Enable PortF(led3, 4) and PortN(led1, 2) GPIO
+   delay++; // Delay 2 more cycles before access Timer registers
+   delay++; // Refer to Page. 756 of Datasheet for info
+   GPIODIR_F = 0x11; // Set PF0, PF4 to output
+   GPIODEN_F = 0x11; // Set PF0, PF4 to digital port
+   GPIODIR_N = 0x3; // Set PN1, PN0 to output
+   GPIODEN_N = 0x3; // Set PN1, PN0 to digital port
+   GPIODATA_N = 0x3;  // Fix me
+   GPIODATA_F = 0x11;  // Turn off all LEDs, Fix me
 }
 
 void ADCReadPot_Init(void) {
