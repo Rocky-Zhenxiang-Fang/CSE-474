@@ -54,7 +54,7 @@ void SetUpTimer(void) {
   
 
     //step 7
-    GPTMTAILR_TIMER_0 = 0x00F42400; // 16000000 
+    GPTMTAILR_TIMER_0 = 60000000; // 16000000 
 
     //step 9
     GPTMCTL_TIMER_0 |= (1<<0); // Enables timer 0_A
