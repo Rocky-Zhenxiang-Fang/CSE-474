@@ -5,7 +5,6 @@
  * This header is used for Task_1_a in CSE 474 Au
  * */
 
-
 #ifndef __Task_1_a_header_H__
 #define __Task_1_a_header_H__
 
@@ -35,6 +34,7 @@
 #define ADCSSMUX3_ADC0  (*((volatile uint32_t *)0x400380A0))
 #define ADCSSCTL3_ADC0  (*((volatile uint32_t *)0x400380A4))
 #define ADCIM_ADC0  (*((volatile uint32_t *)0x40038008))
+#define ADCISC_ADC0  (*((volatile uint32_t *)0x4003800C))
 
 // Timer 
 #define RCGCTIMER (*((volatile uint32_t *)0x400FE604))
@@ -46,6 +46,7 @@
 #define GPTMRIS_TIMER_0  (*((volatile uint32_t *)0x4003001C))
 #define GPTMICR_TIMER_0  (*((volatile uint32_t *)0x40030024))
 #define GPTIMR_TIMER_0  (*((volatile uint32_t *)0x40030018))
+#define GPTMADCEV_TIMER_0  (*((volatile uint32_t *)0x40030070))
 
 //Interrupt
 #define NVIC_EN0  (*((volatile uint32_t *)0xE000E100))

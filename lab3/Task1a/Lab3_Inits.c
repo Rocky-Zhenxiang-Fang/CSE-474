@@ -119,7 +119,7 @@ void ADCReadPot_Init(void) {
    ADCSSMUX3_ADC0 = 3; // using AIN3
 
    // 2.14: Configure ADCSSCTL3 register
-   ADCSSCTL3_ADC0 = 0x6; // 0110
+   ADCSSCTL3_ADC0 = 0x6; // 0110, enable inturrpt, set last bit
    
    // 2.15: Set the SS3 interrupt mask
    ADCIM_ADC0 |= (1 << 3); // using SS3
@@ -128,15 +128,42 @@ void ADCReadPot_Init(void) {
    NVIC_EN0 |= (0x1 << 17); // Enables ADC0 SS3 interrupt. Set field 17 to 1
 
    // 2.17: Enable ADC0 SS3
+   ADCISC_ADC0 |= (1 << 3); // clears previous inturrpt
    ADCACTSS_ADC0 |= (1 << ASEN3); 
 
 }
 
 void TimerADCTriger_Init(void) {
-  // STEP 3: Initialize Timer0A to trigger ADC0 at 1 HZ.
-  // Hint: Refer to section 13.3.7 of the datasheet
+   // STEP 3: Initialize Timer0A to trigger ADC0 at 1 HZ.
+   // Hint: Refer to section 13.3.7 of the datasheet
+   //step 1
+   RCGCTIMER |= (1<<0); // Enables GPtimer 0, sets 1 at field 0
 
-  // YOUR CODE HERE
-}
+   //step 2
+   GPTMCTL_TIMER_0 &= ~(1<<0); //Disables timer 0_A, set 0 to field 0
+   GPTMCTL_TIMER_0 &= ~(1<<8); //Disables timer 0_B, set 0 to field 8
+
+   //step 3
+   GPTMCFG_TIMER_0 = 0x00000000; 
+
+   //step 4
+   GPTMCFG_TIMER_0 = 0x0; // select 32-bit mode
+
+   //step 5
+   GPTMTAMR_TIMER_0 |= (0x2<<0); 
+
+   //step 6
+   GPTMTAMR_TIMER_0 &= ~(1<<4); //Set TACDIR bit to 0 to count down, field 4
+
+   //step 7
+   GPTMTAILR_TIMER_0 = 0x00F42400; // 16000000 
+
+   // step 8, control ADC0 SS3 by timer_0
+   GPTMCTL_TIMER_0 |= (1<<5);
+   GPTMADCEV_TIMER_0 |= (1 << 0); // trigger ADC when time out
+
+   //step 9
+   GPTMCTL_TIMER_0 |= (1<<0); // Enables timer 0_A
+   }
 
 // NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler
