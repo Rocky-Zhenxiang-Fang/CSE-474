@@ -74,40 +74,61 @@ void LED_Init(void) {
 }
 
 void ADCReadPot_Init(void) {
-  // STEP 2: Initialize ADC0 SS3.
-  // 2.1: Enable the ADC0 clock
+   // STEP 2: Initialize ADC0 SS3.
+   // 2.1: Enable the ADC0 clock
+   RCGCADC |= (1 << ADC0); // set bit for ADC0 to 1 
 
-  // 2.2: Delay for RCGCADC (Refer to page 1073)
+   // 2.2: Delay for RCGCADC (Refer to page 1073)
+   unsigned char delay = 0; 
+   delay ++; 
+   delay ++; 
+   delay ++;  // delay for three system clocks
 
-  // 2.3: Power up the PLL (if not already)
-  PLLFREQ0 |= 0x00800000; // we did this for you
-  // 2.4: Wait for the PLL to lock
-  while (PLLSTAT != 0x1); // we did this for you
-  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
+   // 2.3: Power up the PLL (if not already)
+   PLLFREQ0 |= 0x00800000; // we did this for you
 
-  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
+   // 2.4: Wait for the PLL to lock
+   while (PLLSTAT != 0x1); // we did this for you
 
-  // 2.7: Delay for RCGCGPIO
+   // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
+   ADCCC_ADC0 = 0x1; 
 
-  // 2.8: Set the GPIOAFSEL bits for the ADC input pins
+   // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
+   RCGCGPIO |= (1 << 4); // Enable PortE for ADC, use PE0
 
-  // 2.9: Clear the GPIODEN bits for the ADC input pins
+   // 2.7: Delay for RCGCGPIO
+   delay ++; 
+   delay ++;
+    
+   // 2.8: Set the GPIOAFSEL bits for the ADC input pins
+   GPIOAFSEL_E |= (1 << AIN3); 
 
-  // 2.10: Disable the analog isolation circuit for ADC input pins (GPIOAMSEL)
+   // 2.9: Clear the GPIODEN bits for the ADC input pins
+   GPIODEN_E &= ~(1 << AIN3); 
 
-  // 2.11: Disable sample sequencer 3 (SS3)
+   // 2.10: Disable the analog isolation circuit for ADC input pins (GPIOAMSEL)
+   GPIOAMSEL_E |= (1 << AIN3);
 
-  // 2.12: Select timer as the trigger for SS3
+   // 2.11: Disable sample sequencer 3 (SS3)
+   ADCACTSS_ADC0 &= ~(1 << ASEN3); 
 
-  // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
+   // 2.12: Select timer as the trigger for SS3
+   ADCEMUX_ADC0 = (0x5 << EM3); // set SS3 to timer 
 
-  // 2.14: Configure ADCSSCTL3 register
+   // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
+   ADCSSMUX3_ADC0 = 3; // using AIN3
 
-  // 2.15: Set the SS3 interrupt mask
+   // 2.14: Configure ADCSSCTL3 register
+   ADCSSCTL3_ADC0 = 0x6; // 0110
+   
+   // 2.15: Set the SS3 interrupt mask
+   ADCIM_ADC0 |= (1 << 3); // using SS3
 
-  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
+   // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
+   NVIC_EN0 |= (0x1 << 17); // Enables ADC0 SS3 interrupt. Set field 17 to 1
 
-  // 2.17: Enable ADC0 SS3
+   // 2.17: Enable ADC0 SS3
+   ADCACTSS_ADC0 |= (1 << ASEN3); 
 
 }
 

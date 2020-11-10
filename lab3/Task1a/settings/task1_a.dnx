@@ -53,12 +53,15 @@
         <LMIFTDIfoundProbes />
     </LMIFTDIDriver>
     <DebugChecksum>
-        <Checksum>3139556379</Checksum>
+        <Checksum>868047134</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
         <StopOnThrow>_ 0</StopOnThrow>
     </Exceptions>
+    <CallStack>
+        <ShowArgs>0</ShowArgs>
+    </CallStack>
     <DisassembleMode>
         <mode>0</mode>
     </DisassembleMode>
@@ -78,9 +81,6 @@
         <Count>0</Count>
         <SuppressDialog>0</SuppressDialog>
     </Aliases>
-    <CallStack>
-        <ShowArgs>0</ShowArgs>
-    </CallStack>
     <CallStackLog>
         <Enabled>0</Enabled>
     </CallStackLog>
