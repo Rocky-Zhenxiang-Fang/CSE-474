@@ -5,34 +5,33 @@
     <configuration>
         <name>Debug</name>
         <outputs>
-            <file>$PROJ_DIR$\Debug\Obj\task1_b.pbd</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
-            <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
-            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
-            <file>$PROJ_DIR$\Debug\List\task1_b.map</file>
-            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-            <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
-            <file>$PROJ_DIR$\Debug\Obj\main_task1_b.pbi</file>
-            <file>$PROJ_DIR$\Debug\Exe\task1_b.out</file>
-            <file>$TOOLKIT_DIR$\config\linker\TexasInstruments\TM4C1294NC.icf</file>
-            <file>$PROJ_DIR$\Debug\Obj\main_task1_b.__cstat.et</file>
-            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\main_task1_b.o</file>
-            <file>$TOOLKIT_DIR$\lib\dl7M_tlf.a</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
             <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
-            <file>$PROJ_DIR$\main_task1_b.c</file>
-            <file>$PROJ_DIR$\task1_b_header.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
             <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</file>
+            <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+            <file>$PROJ_DIR$\Debug\Exe\task1_b.out</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>$PROJ_DIR$\task1_b_header.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+            <file>$PROJ_DIR$\Debug\List\task1_b.map</file>
+            <file>$PROJ_DIR$\Debug\Obj\main_task1_b.__cstat.et</file>
+            <file>$TOOLKIT_DIR$\config\linker\TexasInstruments\TM4C1294NC.icf</file>
+            <file>$PROJ_DIR$\main_task1_b.c</file>
+            <file>$PROJ_DIR$\Debug\Obj\main_task1_b.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\main_task1_b.pbi</file>
+            <file>$TOOLKIT_DIR$\lib\dl7M_tlf.a</file>
+            <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 4 10</file>
+                    <file> 10 6</file>
                 </tool>
             </outputs>
         </file>
@@ -41,13 +40,13 @@
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 4</file>
+                    <file> 10</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 11 14 2 17 8 15</file>
+                    <file> 12 14 4 0 17 16</file>
                 </tool>
             </inputs>
         </file>
@@ -56,7 +55,7 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 9</file>
+                    <file> 15</file>
                 </tool>
                 <tool>
                     <name>ICCARM</name>
@@ -64,17 +63,17 @@
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 12</file>
+                    <file> 11</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 3 20 19 16 1 13 7 5 6</file>
+                    <file> 2 3 8 7 19 9 5 1 18</file>
                 </tool>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 6 13 3 7 20 16 1 5 19</file>
+                    <file> 18 9 2 5 3 7 19 1 8</file>
                 </tool>
             </inputs>
         </file>

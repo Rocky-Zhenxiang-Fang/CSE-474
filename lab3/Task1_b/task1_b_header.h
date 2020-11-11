@@ -35,6 +35,7 @@
 #define ADCIM_ADC0  (*((volatile uint32_t *)0x40038008))
 #define ADCISC_ADC0  (*((volatile uint32_t *)0x4003800C))
 #define ADCSSFIFO3_ADC0  (*((volatile uint32_t *)0x400380A8))
+#define ADCSSTSH3_ADC0  (*((volatile uint32_t *)0x400380BC))
 
 // Timer 
 #define RCGCTIMER (*((volatile uint32_t *)0x400FE604))

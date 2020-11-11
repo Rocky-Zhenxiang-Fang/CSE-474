@@ -6,33 +6,33 @@
         <name>Debug</name>
         <outputs>
             <file>$PROJ_DIR$\Debug\Obj\task1_a.pbd</file>
-            <file>$PROJ_DIR$\main_task1_a.c</file>
-            <file>$PROJ_DIR$\Debug\Obj\main_task1_a.o</file>
-            <file>$PROJ_DIR$\Debug\Exe\task1_a.out</file>
-            <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
+            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
             <file>$TOOLKIT_DIR$\lib\dl7M_tlf.a</file>
-            <file>$TOOLKIT_DIR$\config\linker\TexasInstruments\TM4C1292NC.icf</file>
-            <file>$PROJ_DIR$\Debug\List\task1_a.map</file>
             <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</file>
+            <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
+            <file>$PROJ_DIR$\Debug\List\task1_a.map</file>
+            <file>$PROJ_DIR$\main_task1_a.c</file>
+            <file>$PROJ_DIR$\Debug\Exe\task1_a.out</file>
+            <file>$PROJ_DIR$\Debug\Obj\main_task1_a.o</file>
             <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
             <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\main_task1_a.pbi</file>
             <file>$PROJ_DIR$\Debug\Obj\main_task1_a.__cstat.et</file>
             <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\main_task1_a.pbi</file>
+            <file>$TOOLKIT_DIR$\config\linker\TexasInstruments\TM4C1292NC.icf</file>
             <file>$PROJ_DIR$\task1_a_header.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
             <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 3 7</file>
+                    <file> 8 6</file>
                 </tool>
             </outputs>
         </file>
@@ -41,25 +41,25 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 13</file>
+                    <file> 15</file>
                 </tool>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 2</file>
+                    <file> 9</file>
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 14</file>
+                    <file> 12</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 10 11 19 12 9 18 17 20 16</file>
+                    <file> 19 11 1 14 10 20 17 4 18</file>
                 </tool>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 18 19 10 11 20 16 12 9 17</file>
+                    <file> 20 1 19 11 4 18 14 10 17</file>
                 </tool>
             </inputs>
         </file>
@@ -68,13 +68,13 @@
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 7</file>
+                    <file> 6</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 6 2 8 15 4 5</file>
+                    <file> 16 9 3 13 5 2</file>
                 </tool>
             </inputs>
         </file>
