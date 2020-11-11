@@ -5,25 +5,24 @@
  * This header is used for Task_1_a in CSE 474 Au
  * */
 
-#ifndef __Task_1_a_header_H__
-#define __Task_1_a_header_H__
+#ifndef __Task_1_b_header_H__
+#define __Task_1_b_header_H__
 
 //GPIO 
 #define RCGCGPIO (*((volatile uint32_t *)0x400FE608))
 
-#define GPIODIR_N (*((volatile uint32_t *)0x40064400))
-#define GPIODEN_N (*((volatile uint32_t *)0x4006451C))
-#define GPIODATA_N (*((volatile uint32_t *)0x400643FC))
-
-#define GPIODIR_E (*((volatile uint32_t *)0x4005C400))
-#define GPIODEN_E (*((volatile uint32_t *)0x4005C51C))
-#define GPIODATA_E (*((volatile uint32_t *)0x4005C3FC))
-#define GPIOAMSEL_E  (*((volatile uint32_t *)0x4005C528))
-#define GPIOAFSEL_E  (*((volatile uint32_t *)0x4005C420))
-
-#define GPIODIR_F (*((volatile uint32_t *)0x4005D400))
-#define GPIODEN_F (*((volatile uint32_t *)0x4005D51C))
-#define GPIODATA_F (*((volatile uint32_t *)0x4005D3FC))
+#define GPIODIR_J (*((volatile uint32_t *)0x40060400))
+#define GPIOPUR_J (*((volatile uint32_t *)0x40060510))
+#define GPIOLOCK_J (*((volatile uint32_t *)0x40060520))
+#define GPIOCR_J (*((volatile uint32_t *)0x40060524))
+#define GPIODEN_J (*((volatile uint32_t *)0x4006051C))
+#define GPIODATA_J (*((volatile uint32_t *)0x400603FC))
+#define GPIOIS_J  (*((volatile uint32_t *)0x40060404))
+#define GPIOIBE_J (*((volatile uint32_t *)0x40060408))
+#define GPIOIEV_J (*((volatile uint32_t *)0x4006040C))
+#define GPIOICR_J (*((volatile uint32_t *)0x4006041C))
+#define GPIOIM_J (*((volatile uint32_t *)0x40060410))
+#define GPIOMIS_J (*((volatile uint32_t *)0x40060418))
 
 // ADC
 #define RCGCADC (*((volatile uint32_t *)0x400FE638))
@@ -51,16 +50,16 @@
 
 //Interrupt
 #define NVIC_EN0  (*((volatile uint32_t *)0xE000E100))
+#define NVIC_EN1  (*((volatile uint32_t *)0xE000E104))
 
 //define MACRO
-#define LED1 0x2  // PN1 
-#define LED2 0x1  // PN0
-#define LED3 0x10 // PF4
-#define LED4 0x1  // PF0 
 #define ADC0 0  // bit 0
 #define AIN2 1 // PE1
 #define ASEN3 3 // at bit 3
 #define EM3 12 // 4 bit field, lsb at 12
+#define SW1 0x0 // PJ0 
+#define SW2 0x1 // PJ1
+
 #define TATORIS 0x1
 
 //Sets up GPIO Ports
@@ -73,4 +72,4 @@ void SetUpTimer(void);
 void SwitchLEDs(void); 
 
 
-#endif //__Task_1_a_header_H__
+#endif //__Task_1_b_header_H__

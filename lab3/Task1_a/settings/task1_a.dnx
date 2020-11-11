@@ -49,7 +49,7 @@
         <MultiCoreRunAll>1</MultiCoreRunAll>
     </Simulator>
     <LMIFTDIDriver>
-        <LMIFTDIserialNo>0F00E6F1</LMIFTDIserialNo>
+        <LMIFTDIserialNo>on00Cut0</LMIFTDIserialNo>
         <LMIFTDIfoundProbes />
     </LMIFTDIDriver>
     <DebugChecksum>

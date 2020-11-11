@@ -1,13 +1,13 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.11.3.13950/W32 for ARM                23/Oct/2020  18:18:55
+# IAR ELF Linker V8.11.3.13950/W32 for ARM                10/Nov/2020  18:26:42
 # Copyright 2007-2017 IAR Systems AB.
 #
 #    Output file  =  C:\Course\CSE 474\lab1\Task1\Debug\Exe\task1.out
 #    Map file     =  C:\Course\CSE 474\lab1\Task1\Debug\List\task1.map
 #    Command line =  
-#        -f C:\Users\rocky\AppData\Local\Temp\EW772E.tmp ("C:\Course\CSE
-#        474\lab1\Task1\Debug\Obj\main_a.o" -o "C:\Course\CSE
+#        -f C:\Users\rocky\AppData\Local\Temp\EW2CBC.tmp ("C:\Course\CSE
+#        474\lab1\Task1\Debug\Obj\main_task1_a.o" -o "C:\Course\CSE
 #        474\lab1\Task1\Debug\Exe\task1.out" --map "C:\Course\CSE
 #        474\lab1\Task1\Debug\List\task1.map" --config "C:\Program Files
 #        (x86)\IAR Systems\Embedded Workbench
@@ -52,7 +52,7 @@ define block HEAP with size = 64K, alignment = 8 { };
                    - 0x00000040    0x40
 
 "P1":                             0x174
-  .text     ro code  0x00000040   0x100  main_a.o [1]
+  .text     ro code  0x00000040   0x100  main_task1_a.o [1]
   .text     ro code  0x00000140    0x22  fpinit_M.o [4]
   .text     ro code  0x00000162     0x2  vector_table_M.o [5]
   .text     ro code  0x00000164    0x1a  cmain.o [5]
@@ -77,7 +77,7 @@ define block HEAP with size = 64K, alignment = 8 { };
     Module            ro code  rw data
     ------            -------  -------
 C:\Course\CSE 474\lab1\Task1\Debug\Obj: [1]
-    main_a.o              256
+    main_task1_a.o        256
     ----------------------------------
     Total:                256
 
@@ -124,13 +124,13 @@ Entry                      Address  Size  Type      Object
 ?main                   0x00000165        Code  Gb  cmain.o [5]
 CSTACK$$Base            0x20000000         --   Gb  - Linker created -
 CSTACK$$Limit           0x20008000         --   Gb  - Linker created -
-Delay                   0x000000b3   0xe  Code  Gb  main_a.o [1]
+Delay                   0x000000b3   0xe  Code  Gb  main_task1_a.o [1]
 Region$$Table$$Base     0x00000000         --   Gb  - Linker created -
 Region$$Table$$Limit    0x00000000         --   Gb  - Linker created -
-SetLEDs                 0x00000081  0x32  Code  Gb  main_a.o [1]
-SetUp                   0x00000055  0x2c  Code  Gb  main_a.o [1]
-TurnOffOneByOne         0x000000ed  0x2c  Code  Gb  main_a.o [1]
-TurnOnOneByOne          0x000000c1  0x2c  Code  Gb  main_a.o [1]
+SetLEDs                 0x00000081  0x32  Code  Gb  main_task1_a.o [1]
+SetUp                   0x00000055  0x2c  Code  Gb  main_task1_a.o [1]
+TurnOffOneByOne         0x000000ed  0x2c  Code  Gb  main_task1_a.o [1]
+TurnOnOneByOne          0x000000c1  0x2c  Code  Gb  main_task1_a.o [1]
 __cmain                 0x00000165        Code  Gb  cmain.o [5]
 __exit                  0x00000195  0x14  Code  Gb  exit.o [6]
 __iar_init_vfp          0x00000141        Code  Gb  fpinit_M.o [4]
@@ -143,7 +143,7 @@ _call_main              0x00000171        Code  Gb  cmain.o [5]
 _exit                   0x00000189        Code  Gb  cexit.o [5]
 _main                   0x0000017b        Code  Gb  cmain.o [5]
 exit                    0x00000183   0x4  Code  Gb  exit.o [3]
-main                    0x00000041  0x14  Code  Gb  main_a.o [1]
+main                    0x00000041  0x14  Code  Gb  main_task1_a.o [1]
 
 
 [1] = C:\Course\CSE 474\lab1\Task1\Debug\Obj

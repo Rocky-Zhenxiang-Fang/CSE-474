@@ -3,5 +3,8 @@
     <project>
         <path>$WS_DIR$\Task1_a\task1_a.ewp</path>
     </project>
+    <project>
+        <path>$WS_DIR$\Task1_b\task1_b.ewp</path>
+    </project>
     <batchBuild />
 </workspace>

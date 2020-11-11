@@ -5,38 +5,38 @@
     <configuration>
         <name>Debug</name>
         <outputs>
-            <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-            <file>$PROJ_DIR$\Debug\Exe\chou.out</file>
             <file>$PROJ_DIR$\Debug\Obj\main.o</file>
-            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+            <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+            <file>$PROJ_DIR$\Debug\Exe\chou.out</file>
             <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-            <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
             <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</file>
             <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
-            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
-            <file>$PROJ_DIR$\Debug\List\chou.map</file>
-            <file>$TOOLKIT_DIR$\config\linker\TexasInstruments\TM4C1294NC.icf</file>
             <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
-            <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-            <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
+            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
+            <file>$TOOLKIT_DIR$\config\linker\TexasInstruments\TM4C1294NC.icf</file>
             <file>$PROJ_DIR$\lab1.h</file>
+            <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
+            <file>$PROJ_DIR$\Debug\List\chou.map</file>
+            <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
             <file>$PROJ_DIR$\main.c</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
         </outputs>
         <file>
             <name>$PROJ_DIR$\Debug\Exe\chou.out</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 12</file>
+                    <file> 14</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 13 4 10 7 0 16</file>
+                    <file> 11 0 7 13 1 15</file>
                 </tool>
             </inputs>
         </file>
@@ -44,26 +44,26 @@
             <name>$PROJ_DIR$\main.c</name>
             <outputs>
                 <tool>
-                    <name>ICCARM</name>
-                    <file> 4</file>
+                    <name>BICOMP</name>
+                    <file> 17</file>
                 </tool>
                 <tool>
-                    <name>BICOMP</name>
-                    <file> 15</file>
+                    <name>ICCARM</name>
+                    <file> 0</file>
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 14</file>
+                    <file> 8</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
-                    <name>ICCARM</name>
-                    <file> 17 1 5 11 6 9 2 8</file>
+                    <name>BICOMP</name>
+                    <file> 10 9 3 18 5 6 2 12</file>
                 </tool>
                 <tool>
-                    <name>BICOMP</name>
-                    <file> 8 5 1 11 6 9 2 17</file>
+                    <name>ICCARM</name>
+                    <file> 12 3 9 18 5 6 2 10</file>
                 </tool>
             </inputs>
         </file>
@@ -72,7 +72,7 @@
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 12 3</file>
+                    <file> 14 4</file>
                 </tool>
             </outputs>
         </file>
