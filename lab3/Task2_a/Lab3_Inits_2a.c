@@ -3,11 +3,11 @@
  */
 
 #include "PLL_Header.h"
-#include "Lab3_Inits.h"
+#include "Lab3_Inits_2a.h"
 
 // STEP 0a: Include your header file here
 // YOUR CUSTOM HEADER FILE HERE
-#include "task1_a_header.h"
+#include "task2_a_header.h"
 
 int PLL_Init(enum frequency freq) {
     // Do NOT modify this function.
@@ -56,21 +56,25 @@ int PLL_Init(enum frequency freq) {
     return 1;
 }
 
-void LED_Init(void) {
-  // STEP 1: Initialize the 4 on board LEDs by initializing the corresponding
-  // GPIO pins.
-
-  // YOUR CODE HERE
+void Switch_Init(void) {
    volatile unsigned short delay = 0;
-   RCGCGPIO |= 0x1020; // Enable PortF(led3, 4) and PortN(led1, 2) GPIO
+   RCGCGPIO |= 0x1100; // Enable PortJ(Switches) and PortN(led1, 2) GPIO
    delay++; // Delay 2 more cycles before access Timer registers
    delay++; // Refer to Page. 756 of Datasheet for info
-   GPIODIR_F = 0x11; // Set PF0, PF4 to output
-   GPIODEN_F = 0x11; // Set PF0, PF4 to digital port
-   GPIODIR_N = 0x3; // Set PN1, PN0 to output
-   GPIODEN_N = 0x3; // Set PN1, PN0 to digital port
-   GPIODATA_N = 0x0;  // Fix me
-   GPIODATA_F = 0x0;  // Turn off all LEDs, Fix me
+
+   GPIODIR_J = 0x0; // Set all PJ pins to input
+   GPIOLOCK_J = 0x4C4F434B; // Unlock Port J
+   GPIOCR_J = 0x3; // Allows GPIOPUR and GPIODEN to be used
+   GPIOPUR_J = 0x3; // Select PJ0, PJ1 to pull up
+   GPIODEN_J = 0x3; // Set PJ0 and PJ1 to digital port
+
+   // Prot_J (Switches) Interrupt
+   GPIOIS_J &= ~0x3; // make switches edge sensitive
+   GPIOIBE_J &= ~0x3; // Only detect one edge, selected in IEV
+   GPIOIEV_J = ~0x3; // detect on falling edge
+   GPIOICR_J |= 0x3; // clear prior interrupt
+   GPIOIM_J |= 0x3; // unmask interrupt
+   NVIC_EN1 |= (0x1 << 19); // Enables Port I interrupt. Set field 19 to 1
 }
 
 void ADCReadPot_Init(void) {
@@ -92,34 +96,19 @@ void ADCReadPot_Init(void) {
 
    // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
    ADCCC_ADC0 = 0x1; 
-
-   // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
-   RCGCGPIO |= (1 << 4); // Enable PortE for ADC, use PE1
-
-   // 2.7: Delay for RCGCGPIO
-   delay ++; 
-   delay ++;
-    
-   // 2.8: Set the GPIOAFSEL bits for the ADC input pins
-   GPIOAFSEL_E |= (1 << 1); 
-
-   // 2.9: Clear the GPIODEN bits for the ADC input pins
-   GPIODEN_E &= ~(1 << 1); 
-
-   // 2.10: Disable the analog isolation circuit for ADC input pins (GPIOAMSEL)
-   GPIOAMSEL_E |= (1 << 1);
-
+   
    // 2.11: Disable sample sequencer 3 (SS3)
    ADCACTSS_ADC0 &= ~(1 << ASEN3); 
 
    // 2.12: Select timer as the trigger for SS3
    ADCEMUX_ADC0 = (0x5 << EM3); // set SS3 to timer 
 
-   // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
-   ADCSSMUX3_ADC0 = 2; // using AIN2
+   // 2.13: Select the temperature seneor for SS3
+   ADCSSCTL3_ADC0 |= (1 << 3);
+   ADCSSTSH3_ADC0 = 0x6;    
 
    // 2.14: Configure ADCSSCTL3 register
-   ADCSSCTL3_ADC0 = 0x6; // 0110, enable inturrpt, set last bit
+   ADCSSCTL3_ADC0 |= 0x6; // 0110, enable inturrpt, set last bit
    
    // 2.15: Set the SS3 interrupt mask
    ADCIM_ADC0 |= (1 << 3); // using SS3
@@ -130,7 +119,6 @@ void ADCReadPot_Init(void) {
 
    // 2.17: Enable ADC0 SS3
    ADCACTSS_ADC0 |= (1 << ASEN3); 
-
 }
 
 void TimerADCTriger_Init(void) {
