@@ -29,4 +29,12 @@ void ADCReadPot_Init(void);
 // Initializes Timer 0A to trigger ADC0 at 1 HZ.
 void TimerADCTriger_Init(void);
 
+// Initializes UART0 to transfer tempurature data to PC
+void UART_Init(void);
+
+// Sends a char c to computer using UART
+void Send_Char(char c);
+
+// Send sentance using Send_Char
+void Send_sentance(char* sentance); 
 #endif  // _Lab3_Inits_H_

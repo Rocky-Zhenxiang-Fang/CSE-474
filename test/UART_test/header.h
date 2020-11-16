@@ -1,12 +1,6 @@
-/**
- * Rocky Zhenxiang Fang
- * Student ID: 1926438
- * 2020/11/14
- * This header is used for Task_2_a in CSE 474 Au
- * */
 
-#ifndef __Task_2_a_header_H__
-#define __Task_2_a_header_H__
+#ifndef __header_H__
+#define __header_H__
 
 //GPIO 
 #define RCGCGPIO (*((volatile uint32_t *)0x400FE608))
@@ -88,4 +82,4 @@ void SetUpTimer(void);
 void SwitchLEDs(void); 
 
 
-#endif //__Task_2_a_header_H__
+#endif //__header_H__

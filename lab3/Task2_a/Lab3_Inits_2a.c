@@ -155,4 +155,54 @@ void TimerADCTriger_Init(void) {
    GPTMCTL_TIMER_0 |= (1<<0); // Enables timer 0_A
    }
 
-// NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler
+void UART_Init(void) {
+
+   // 1. Enable the UART module using the RCGCUART register (see page 388).
+   RCGCUART |= (1 << 0); // Enable UART0
+
+   // 2. Enable the clock to the appropriate GPIO module via the RCGCGPIO register (see page 382).
+   //    To find out which GPIO port to enable, refer to Table 26-5 on page 1808.
+   RCGCGPIO |= (1 << 0); // Enable PortA, PA0 is U0Rx, PA1 is U0Tx
+
+   // 3. Set the GPIO AFSEL bits for the appropriate pins (see page 770). To determine which GPIOs to
+   //    configure, see Table 26-4 on page 1797.
+   GPIOAFSEL_A = (1 << 1) | (1 << 0); 
+
+   // 4. Configure the GPIO current level and/or slew rate as specified for the mode selected (see
+   //    page 772 and page 780). Not useful for this task
+
+   // 5. Configure the PMCn fields in the GPIOPCTL register to assign
+   GPIOPCTL_A = (1 << 0) | (1 << 4); // 4 bits for a pin
+   GPIODEN_A = (1 << 0) | (1 << 1); 
+
+   /*
+   Baud-Rate = 9600
+   Clock is setup to 60 MHZ
+   BRD = 60000000 / (16 * 9600) = 390.625  (130, 32, 781, 78)
+   UARTFBRD[DIVFRAC] = int(0.625 * 64 + 0.5) = 40  (13, 35, 16, 8)
+   */
+
+   // 6. Disable the UART by clearing the UARTEN bit in the UARTCTL register.
+   UARTCTL_0 &= ~(1 << 0); 
+
+   // 7. Write the integer portion of the BRD to the UARTIBRD register.
+   UARTIBRD_0 = 390; 
+
+   // 8. Write the fractional portion of the BRD to the UARTFBRD register.
+   UARTFBRD_0 = 40;
+
+   // 9. Write the desired serial parameters to the UARTLCRH register (in this case, a value of
+   //    0x0000.0060).
+   UARTLCRH_0 = (0x3 << 5); // 8 bit, no parity, 1-bit stop bits
+
+   // 10. Configure the UART clock source by writing to the UARTCC register.
+   UARTCC_0 = 0x0; // Select system clock which will be update by PLL_init()
+
+   // 11. Optionally, configure the μDMA channel (see “Micro Direct Memory Access (μDMA)” on page 678)
+   // and enable the DMA option(s) in the UARTDMACTL register.
+
+   // 12. Enable the UART by setting the UARTEN bit in the UARTCTL register.
+   UARTCTL_0 = (1 << 0) | (1 << 8) | (1 << 9); // 8 and 9 are for receive and transmition
+
+};
+
