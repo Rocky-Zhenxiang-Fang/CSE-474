@@ -1,17 +1,14 @@
 /**
- * EE/CSE 474: Lab3 Task1a main function
+ * Rocky Zhenxiang Fang
+ * Student ID: 1926438
+ * 2020/11/17
+ * This file is used print the temperature of the tiva board to the debugger terminal
  */
-
-// NOTE: This is the main function for Task 1a. You should start by
-// implementing Lab3_Driver.c (STEP 0a, 1-3) and then come back to finish
-// the ISR and the main function (STEP 0b, 4-5).
 
 #include <stdint.h>
 #include <stdio.h>
 #include "Lab3_Inits_b.h"
 
-// STEP 0b: Include your header file here
-// YOUR CUSTOM HEADER FILE HERE
 #include "task1_b_header.h"
 
 uint32_t ADC_value = 0;
@@ -37,13 +34,8 @@ int main(void) {
 }
 
 void ADC0SS3_Handler(void) {
-   // STEP 4: Implement the ADC ISR.
-   // 4.1: Clear the ADC0 interrupt flag
    ADCISC_ADC0 |= (1 << 3); // clears previous inturrpt
-
-   // 4.2: Save the ADC value to global variable ADC_value
-   ADC_value = ADCSSFIFO3_ADC0; 
-
+   ADC_value = ADCSSFIFO3_ADC0; // Save the ADC value to global variable ADC_value
    printValue ^= 1; // indicates new value should be printed
 }
 

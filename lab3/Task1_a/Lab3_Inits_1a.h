@@ -6,8 +6,8 @@
 // this header file, and thus you should not modify it for task 1a.
 // However, you may modify it if you want to reuse it for other tasks.
 
-#ifndef _Lab3_Inits_H_
-#define _Lab3_Inits_H_
+#ifndef _Lab3_Inits_1a_H_
+#define _Lab3_Inits_1aH_
 
 // Preset frequency for 120 MHZ, 60 MHZ, and 12 MHZ clock
 // Pass in the preset to Timer1_Init and PLL_Init to configure
@@ -30,4 +30,4 @@ void ADCReadPot_Init(void);
 // Initializes Timer 0A to trigger ADC0 at 1 HZ.
 void TimerADCTriger_Init(void);
 
-#endif  // _Lab3_Inits_H_
+#endif  // _Lab3_Inits_1aH_

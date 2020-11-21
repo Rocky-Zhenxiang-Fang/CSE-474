@@ -78,46 +78,45 @@ void Switch_Init(void) {
 }
 
 void ADCReadPot_Init(void) {
-   // STEP 2: Initialize ADC0 SS3.
-   // 2.1: Enable the ADC0 clock
+   // Enable the ADC0 clock
    RCGCADC |= (1 << ADC0); // set bit for ADC0 to 1 
 
-   // 2.2: Delay for RCGCADC (Refer to page 1073)
+   // Delay for RCGCADC (Refer to page 1073)
    unsigned char delay = 0; 
    delay ++; 
    delay ++; 
    delay ++;  // delay for three system clocks
 
-   // 2.3: Power up the PLL (if not already)
+   // Power up the PLL (if not already)
    PLLFREQ0 |= 0x00800000; // we did this for you
 
-   // 2.4: Wait for the PLL to lock
+   // Wait for the PLL to lock
    while (PLLSTAT != 0x1); // we did this for you
 
-   // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
+   // Configure ADCCC to use the clock source defined by ALTCLKCFG
    ADCCC_ADC0 = 0x1; 
    
-   // 2.11: Disable sample sequencer 3 (SS3)
+   // Disable sample sequencer 3 (SS3)
    ADCACTSS_ADC0 &= ~(1 << ASEN3); 
 
-   // 2.12: Select timer as the trigger for SS3
+   // Select timer as the trigger for SS3
    ADCEMUX_ADC0 = (0x5 << EM3); // set SS3 to timer 
 
-   // 2.13: Select the temperature seneor for SS3
+   // Select the temperature seneor for SS3
    ADCSSCTL3_ADC0 |= (1 << 3);
    ADCSSTSH3_ADC0 = 0x6;    
 
-   // 2.14: Configure ADCSSCTL3 register
+   // Configure ADCSSCTL3 register
    ADCSSCTL3_ADC0 |= 0x6; // 0110, enable inturrpt, set last bit
    
-   // 2.15: Set the SS3 interrupt mask
+   // Set the SS3 interrupt mask
    ADCIM_ADC0 |= (1 << 3); // using SS3
 
-   // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
+   // Set the corresponding bit for ADC0 SS3 in NVIC
    ADCISC_ADC0 |= (1 << 3); // clears previous inturrpt
    NVIC_EN0 |= (0x1 << 17); // Enables ADC0 SS3 interrupt. Set field 17 to 1
 
-   // 2.17: Enable ADC0 SS3
+   // Enable ADC0 SS3
    ADCACTSS_ADC0 |= (1 << ASEN3); 
 }
 

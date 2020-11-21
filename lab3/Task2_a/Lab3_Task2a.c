@@ -1,24 +1,19 @@
 /**
- * EE/CSE 474: Lab3 Task1a main function
+ * Rocky Zhenxiang Fang
+ * Student ID: 1926438
+ * 2020/11/17
+ * This file is used send the temperature of the tiva board to PC using wierd UART
  */
-
-// NOTE: This is the main function for Task 1a. You should start by
-// implementing Lab3_Driver.c (STEP 0a, 1-3) and then come back to finish
-// the ISR and the main function (STEP 0b, 4-5).
 
 #include <stdint.h>
 #include <stdio.h>
 #include "Lab3_Inits_2a.h"
-
-// STEP 0b: Include your header file here
-// YOUR CUSTOM HEADER FILE HERE
 #include "task2_a_header.h"
 
 uint32_t ADC_value = 0;
 unsigned char printValue = 0; 
 
 int main(void) {
-   // Select system clock frequency preset
    enum frequency freq = PRESET2; // 60 MHz
    PLL_Init(freq);            // Set system clock frequency to 60 MHz
    Switch_Init();             // Initialize the 2 onboard Switches (GPIO)
@@ -29,7 +24,6 @@ int main(void) {
    printf("Clock starting at 60MHz \n");
    Send_sentance("Clock starting at 60MHz \n \r"); 
    while(1) {
-
       if (printValue) { // only print if ADC value has been changed
          tempurature = 147.5 - (75 * 3.3 * ADC_value / 4096);
          char tempurature_string[100]; 
@@ -43,11 +37,7 @@ int main(void) {
 }
 
 void ADC0SS3_Handler(void) {
-   // STEP 4: Implement the ADC ISR.
-   // 4.1: Clear the ADC0 interrupt flag
    ADCISC_ADC0 |= (1 << 3); // clears previous inturrpt
-
-   // 4.2: Save the ADC value to global variable ADC_value
    ADC_value = ADCSSFIFO3_ADC0; 
 
    printValue ^= 1; // indicates new value should be printed

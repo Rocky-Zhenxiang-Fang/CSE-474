@@ -3,10 +3,8 @@
  */
 
 #include "PLL_Header.h"
-#include "Lab3_Inits.h"
+#include "Lab3_Inits_1a.h"
 
-// STEP 0a: Include your header file here
-// YOUR CUSTOM HEADER FILE HERE
 #include "task1_a_header.h"
 
 int PLL_Init(enum frequency freq) {
@@ -57,10 +55,6 @@ int PLL_Init(enum frequency freq) {
 }
 
 void LED_Init(void) {
-  // STEP 1: Initialize the 4 on board LEDs by initializing the corresponding
-  // GPIO pins.
-
-  // YOUR CODE HERE
    volatile unsigned short delay = 0;
    RCGCGPIO |= 0x1020; // Enable PortF(led3, 4) and PortN(led1, 2) GPIO
    delay++; // Delay 2 more cycles before access Timer registers
@@ -74,96 +68,75 @@ void LED_Init(void) {
 }
 
 void ADCReadPot_Init(void) {
-   // STEP 2: Initialize ADC0 SS3.
-   // 2.1: Enable the ADC0 clock
+   // Enable the ADC0 clock
    RCGCADC |= (1 << ADC0); // set bit for ADC0 to 1 
 
-   // 2.2: Delay for RCGCADC (Refer to page 1073)
+   // Delay for RCGCADC (Refer to page 1073)
    unsigned char delay = 0; 
    delay ++; 
    delay ++; 
    delay ++;  // delay for three system clocks
 
-   // 2.3: Power up the PLL (if not already)
+   // Power up the PLL (if not already)
    PLLFREQ0 |= 0x00800000; // we did this for you
 
-   // 2.4: Wait for the PLL to lock
+   // Wait for the PLL to lock
    while (PLLSTAT != 0x1); // we did this for you
 
-   // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
+   // Configure ADCCC to use the clock source defined by ALTCLKCFG
    ADCCC_ADC0 = 0x1; 
 
-   // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
+   // Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
    RCGCGPIO |= (1 << 4); // Enable PortE for ADC, use PE1
 
-   // 2.7: Delay for RCGCGPIO
+   // Delay for RCGCGPIO
    delay ++; 
    delay ++;
     
-   // 2.8: Set the GPIOAFSEL bits for the ADC input pins
+   // Set the GPIOAFSEL bits for the ADC input pins
    GPIOAFSEL_E |= (1 << 1); 
 
-   // 2.9: Clear the GPIODEN bits for the ADC input pins
+   // Clear the GPIODEN bits for the ADC input pins
    GPIODEN_E &= ~(1 << 1); 
 
-   // 2.10: Disable the analog isolation circuit for ADC input pins (GPIOAMSEL)
+   // Disable the analog isolation circuit for ADC input pins (GPIOAMSEL)
    GPIOAMSEL_E |= (1 << 1);
 
-   // 2.11: Disable sample sequencer 3 (SS3)
+   // Disable sample sequencer 3 (SS3)
    ADCACTSS_ADC0 &= ~(1 << ASEN3); 
 
-   // 2.12: Select timer as the trigger for SS3
+   // Select timer as the trigger for SS3
    ADCEMUX_ADC0 = (0x5 << EM3); // set SS3 to timer 
 
-   // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
+   // Select the analog input channel for SS3 (Hint: Table 15-1)
    ADCSSMUX3_ADC0 = 2; // using AIN2
 
-   // 2.14: Configure ADCSSCTL3 register
+   // Configure ADCSSCTL3 register
    ADCSSCTL3_ADC0 = 0x6; // 0110, enable inturrpt, set last bit
    
-   // 2.15: Set the SS3 interrupt mask
+   // Set the SS3 interrupt mask
    ADCIM_ADC0 |= (1 << 3); // using SS3
 
-   // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
+   // Set the corresponding bit for ADC0 SS3 in NVIC
    ADCISC_ADC0 |= (1 << 3); // clears previous inturrpt
    NVIC_EN0 |= (0x1 << 17); // Enables ADC0 SS3 interrupt. Set field 17 to 1
 
-   // 2.17: Enable ADC0 SS3
+   // Enable ADC0 SS3
    ADCACTSS_ADC0 |= (1 << ASEN3); 
 
 }
 
 void TimerADCTriger_Init(void) {
-   // STEP 3: Initialize Timer0A to trigger ADC0 at 1 HZ.
-   // Hint: Refer to section 13.3.7 of the datasheet
-   //step 1
    RCGCTIMER |= (1<<0); // Enables GPtimer 0, sets 1 at field 0
-
-   //step 2
    GPTMCTL_TIMER_0 &= ~(1<<0); //Disables timer 0_A, set 0 to field 0
    GPTMCTL_TIMER_0 &= ~(1<<8); //Disables timer 0_B, set 0 to field 8
-
-   //step 3
    GPTMCFG_TIMER_0 = 0x00000000; 
-
-   //step 4
    GPTMCFG_TIMER_0 = 0x0; // select 32-bit mode
-
-   //step 5
    GPTMTAMR_TIMER_0 |= (0x2<<0); 
-
-   //step 6
    GPTMTAMR_TIMER_0 &= ~(1<<4); //Set TACDIR bit to 0 to count down, field 4
-
-   //step 7
    GPTMTAILR_TIMER_0 = 60000000; 
-
-   // step 8, control ADC0 SS3 by timer_0
    GPTMCTL_TIMER_0 |= (1<<5);
    GPTMADCEV_TIMER_0 |= (1 << 0); // trigger ADC when time out
-
-   //step 9
-   
    GPTMCTL_TIMER_0 |= (1<<0); // Enables timer 0_A
    }
 

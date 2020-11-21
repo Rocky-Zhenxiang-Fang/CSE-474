@@ -1,14 +1,14 @@
 /**
  * Rocky Zhenxiang Fang
  * Student ID: 1926438
- * 2020/11/09
- * This header is used for Task_1_a in CSE 474 Au
+ * 2020/11/17
+ * This header is used for Lab3 Task_1_b in CSE 474 Au
  * */
 
 #ifndef __Task_1_b_header_H__
 #define __Task_1_b_header_H__
 
-//GPIO 
+/******************* GPIO REGISTERS ********************/
 #define RCGCGPIO (*((volatile uint32_t *)0x400FE608))
 
 #define GPIODIR_J (*((volatile uint32_t *)0x40060400))
@@ -24,7 +24,7 @@
 #define GPIOIM_J (*((volatile uint32_t *)0x40060410))
 #define GPIOMIS_J (*((volatile uint32_t *)0x40060418))
 
-// ADC
+/******************* ADC REGISTERS *********************/
 #define RCGCADC (*((volatile uint32_t *)0x400FE638))
 
 #define ADCCC_ADC0 (*((volatile uint32_t *)0x40038FC8))
@@ -37,7 +37,7 @@
 #define ADCSSFIFO3_ADC0  (*((volatile uint32_t *)0x400380A8))
 #define ADCSSTSH3_ADC0  (*((volatile uint32_t *)0x400380BC))
 
-// Timer 
+/****************** TIMER REGISTERS ********************/
 #define RCGCTIMER (*((volatile uint32_t *)0x400FE604))
 
 #define GPTMCTL_TIMER_0 (*((volatile uint32_t *)0x4003000C))
@@ -49,7 +49,7 @@
 #define GPTIMR_TIMER_0  (*((volatile uint32_t *)0x40030018))
 #define GPTMADCEV_TIMER_0  (*((volatile uint32_t *)0x40030070))
 
-//Interrupt
+/**************** INTERRUPT REGISTERS ******************/
 #define NVIC_EN0  (*((volatile uint32_t *)0xE000E100))
 #define NVIC_EN1  (*((volatile uint32_t *)0xE000E104))
 
@@ -62,15 +62,5 @@
 #define SW2 0x1 // PJ1
 
 #define TATORIS 0x1
-
-//Sets up GPIO Ports
-void SetUpGPIO(void);
-
-//Sets up timer
-void SetUpTimer(void); 
-
-//Used to turn on/off the approiate LED based on flag
-void SwitchLEDs(void); 
-
 
 #endif //__Task_1_b_header_H__

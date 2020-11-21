@@ -8,7 +8,7 @@
 #ifndef __Task_2_a_header_H__
 #define __Task_2_a_header_H__
 
-//GPIO 
+/******************* GPIO REGISTERS ********************/
 #define RCGCGPIO (*((volatile uint32_t *)0x400FE608))
 
 #define GPIOAFSEL_A (*((volatile uint32_t *)0x40058420))
@@ -28,7 +28,7 @@
 #define GPIOIM_J (*((volatile uint32_t *)0x40060410))
 #define GPIOMIS_J (*((volatile uint32_t *)0x40060418))
 
-// ADC
+/******************* ADC REGISTERS *********************/
 #define RCGCADC (*((volatile uint32_t *)0x400FE638))
 
 #define ADCCC_ADC0 (*((volatile uint32_t *)0x40038FC8))
@@ -41,7 +41,7 @@
 #define ADCSSFIFO3_ADC0  (*((volatile uint32_t *)0x400380A8))
 #define ADCSSTSH3_ADC0  (*((volatile uint32_t *)0x400380BC))
 
-// Timer 
+/****************** TIMER REGISTERS ********************/
 #define RCGCTIMER (*((volatile uint32_t *)0x400FE604))
 
 #define GPTMCTL_TIMER_0 (*((volatile uint32_t *)0x4003000C))
@@ -53,7 +53,7 @@
 #define GPTIMR_TIMER_0  (*((volatile uint32_t *)0x40030018))
 #define GPTMADCEV_TIMER_0  (*((volatile uint32_t *)0x40030070))
 
-// UART
+/****************** UART REGISTERS ********************/
 #define RCGCUART (*((volatile uint32_t *)0x400FE618))
 
 #define UARTCTL_0 (*((volatile uint32_t *)0x4000C030))
@@ -64,7 +64,7 @@
 #define UARTFR_0 (*((volatile uint32_t *)0x4000C018))
 #define UARTDR_0 (*((volatile uint32_t *)0x4000C000))
 
-//Interrupt
+/****************** INTERRUPT REGISTERS ********************/
 #define NVIC_EN0  (*((volatile uint32_t *)0xE000E100))
 #define NVIC_EN1  (*((volatile uint32_t *)0xE000E104))
 
@@ -77,15 +77,5 @@
 #define SW2 0x1 // PJ1
 
 #define TATORIS 0x1
-
-//Sets up GPIO Ports
-void SetUpGPIO(void);
-
-//Sets up timer
-void SetUpTimer(void); 
-
-//Used to turn on/off the approiate LED based on flag
-void SwitchLEDs(void); 
-
 
 #endif //__Task_2_a_header_H__
