@@ -16,8 +16,12 @@ unsigned char printValue = 0;
 char temperatureString[50]; 
 char clockString[100]; 
 
+// Draws two botton on the LCD panel, one for 12MHz, the other from 120MHz
+void LCD_DrawButtons(void); 
+
 // takes two strings and present it at the top of the LCD panel
 void LCD_PrintTempearture(char string1[], char string2[]);  
+
 
 int main(void) {
    // Select system clock frequency preset
@@ -27,6 +31,7 @@ int main(void) {
    TimerADCTriger_Init();     // Initialize timer_0 that triggers the ADC
    ADCReadPot_Init();         // Initialize ADC0 to read from the potentiometer
    LCD_Init();                // Initialize LCD panel
+   LCD_DrawButtons();         // Draws two button on LCD panel
    float tempurature_c;
    snprintf(clockString, 50, "The current clock frequency is 60 MHz. \n");
    while(1) {
@@ -43,6 +48,18 @@ int main(void) {
    }
    return 0;
 }
+
+void LCD_DrawButtons(void) {
+   // Draw button for 12 MHz
+   LCD_DrawFilledRect(10, 120, 140, 100, Color4[5]);
+   LCD_SetCursor(60, 170);
+   LCD_PrintString("12 MHz"); 
+
+   // Draw button for 120 MHz
+   LCD_DrawFilledRect(170, 120, 140, 100, Color4[3]);
+   LCD_SetCursor(220, 170);
+   LCD_PrintString("120 MHz"); 
+}; 
 
 void LCD_PrintTempearture(char string1[], char string2[]) {
    LCD_SetCursor(0, 0); 
