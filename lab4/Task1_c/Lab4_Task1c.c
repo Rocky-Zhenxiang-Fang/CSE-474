@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "Lab4_Inits_1c.h"
 #include "SSD2119_Display.h"
+#include "SSD2119_Touch.h"
 #include "task1_c_header.h"
 
 uint32_t ADC_value = 0;
@@ -32,6 +33,15 @@ void LCD_PrintClock(char clockFrequencyString[]);
 // FSM machine tick function
 void TickFreq(void); 
 
+/*
+ * Returns if any virtual button is pressed by LastXPos and LastYPos 
+ *    return -1 if non of the virtual button is pressed
+ *    return 12 if the 12Hz button is pressed
+ *    return 120 if the 120Hz button is pressed
+ * Note: Cannot detect multiple press
+ */
+char ButtonPressed(void); 
+
 
 int main(void) {
    // set up functions
@@ -41,6 +51,7 @@ int main(void) {
    TimerADCTriger_Init();     // Initialize timer_0 that triggers the ADC
    ADCReadPot_Init();         // Initialize ADC0 to read from the potentiometer
    LCD_Init();                // Initialize LCD panel
+   Touch_Init();              // Initialize the touching function of LCD
    LCD_DrawButtons();         // Draws two button on LCD panel
    snprintf(clockString, 50, "The current clock frequency is 60 MHz. \n");
 
@@ -51,22 +62,68 @@ int main(void) {
 }
 
 void TickFreq(void) {
+   LastXPos = Touch_ReadX(); 
+   LastYPos = Touch_ReadY(); 
+   // test
+   printf("X = %ld \n", LastXPos); 
+   printf("Y = %ld \n", LastYPos); 
+   char pressedButton = ButtonPressed(); 
    // transition
    switch (usingFreq) {
-   case 60:
-      // Nothing right now
+   case 60:       // starting state
+      if (pressedButton == 12) {
+         usingFreq = PRESET3; 
+      }
+      else if (pressedButton == 120) {
+         usingFreq = PRESET1;
+      }
+      else {
+         usingFreq = PRESET2;
+      }
       break;
    case 12:
-      // Nothing right now
+      if (pressedButton == 120) {
+         usingFreq = PRESET1; 
+      }
+      else {
+         usingFreq = PRESET3;
+      }
    case 120: 
-      // Nothing right now
+      if (pressedButton == 12) {
+         usingFreq = PRESET3; 
+      }
+      else {
+         usingFreq = PRESET1;
+      }
    default:
       usingFreq = 60 ;
       break;
    }
 
    // Action
-   // All states do the same thing, converting the temperature and print it on the LCD panel
+   switch (usingFreq) {
+   case 60:
+      // Do nothing, should not return to this state expect for the starting, progress until the next button is pressed
+      break;
+   case 12:
+      PLL_Init(PRESET3);               // Change the system clock
+      GPTMTAILR_TIMER_0 = 12000000;    // Change the count down value accroding to the system clock
+      sprintf(clockString, "The current clock frequency is 12 MHz. \n");
+      LCD_PrintClock(clockString);     // Print the clock string since it might happened right after one temperature read
+      break;
+   case 120:
+      PLL_Init(PRESET1);               // Change the system clock
+      GPTMTAILR_TIMER_0 = 120000000;    // Change the count down value accroding to the system clock
+      sprintf(clockString, "The current clock frequency is 120 MHz. \n");
+      LCD_PrintClock(clockString);     // Print the clock string since it might happened right after one temperature read
+      break; 
+   
+   default:
+      // Do nothing
+      break;
+   }
+
+   // All states should convert the temperature and print it on the LCD panel as long as ADC has been triggered
    if (printValue) { // only print if ADC value has been changed
       float tempurature_c;
       float tempurature_f; 
@@ -78,6 +135,17 @@ void TickFreq(void) {
       printValue ^= 1;
    }
 
+}
+char ButtonPressed(void) {
+   if ((700 <= LastXPos && LastXPos <= 1400) && (750 <= LastYPos && LastYPos <=1080)) {
+      return 12; 
+   }
+   else if ((1490 <= LastXPos && LastXPos <= 1950) && (750 <= LastYPos && LastYPos <=1080)) {
+      return 120; 
+   }
+   else {
+      return -1;
+   }
 }
 
 void LCD_DrawButtons(void) {
@@ -113,8 +181,8 @@ void PortJ_Handler(void) {
       GPIOICR_J |= 0x1 << SW1; // clear interupt from SW1
       PLL_Init(PRESET3); 
       GPTMTAILR_TIMER_0 = 12000000; 
-      sprintf(clockString, "The current clock frequency is 12 MHz. \n");
       usingFreq = 12; 
+      sprintf(clockString, "The current clock frequency is 12 MHz. \n");
       LCD_PrintClock(clockString);
    }
 
