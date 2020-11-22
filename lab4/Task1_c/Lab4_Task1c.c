@@ -13,8 +13,12 @@
 
 uint32_t ADC_value = 0;
 unsigned char printValue = 0; 
-char temperatureString[50]; 
-char clockString[100]; 
+char temperatureString[50];   // The string to be printed at the first line containing the temeperature
+char clockString[100];        // The string to be printed at the second line containing the clock frequency
+unsigned long LastXPos = 0;       // Records the x coordinate of the last touch of the LCD
+unsigned long LastYPos = 0;       // Records the y coordinate of the last touch of the LCD
+
+unsigned char usingFreq = PRESET2;
 
 // Draws two botton on the LCD panel, one for 12MHz, the other from 120MHz
 void LCD_DrawButtons(void); 
@@ -25,9 +29,12 @@ void LCD_PrintTempearture(char temperatureString[]);
 // prints clock time to the LCD panel
 void LCD_PrintClock(char clockFrequencyString[]);
 
+// FSM machine tick function
+void TickFreq(void); 
+
 
 int main(void) {
-   // Select system clock frequency preset
+   // set up functions
    enum frequency freq = PRESET2; // 60 MHz
    PLL_Init(freq);            // Set system clock frequency to 60 MHz
    Switch_Init();             // Initialize the 2 onboard Switches (GPIO)
@@ -35,24 +42,42 @@ int main(void) {
    ADCReadPot_Init();         // Initialize ADC0 to read from the potentiometer
    LCD_Init();                // Initialize LCD panel
    LCD_DrawButtons();         // Draws two button on LCD panel
-
-   float tempurature_c;
-   long touchedX; 
-   long touchedY; 
    snprintf(clockString, 50, "The current clock frequency is 60 MHz. \n");
-   while(1) {
 
-      if (printValue) { // only print if ADC value has been changed
-         float tempurature_f; 
-         tempurature_c = 147.5 - (75 * 3.3 * ADC_value / 4096);
-         tempurature_f = tempurature_c * 1.8 + 32; 
-         sprintf(temperatureString, "The current temperature is %lf C, %lf F. \n", tempurature_c, tempurature_f); 
-         LCD_PrintTempearture(temperatureString);
-         LCD_PrintClock(clockString);
-         printValue ^= 1;
-      }
+   while(1) {
+      TickFreq(); 
    }
    return 0;
+}
+
+void TickFreq(void) {
+   // transition
+   switch (usingFreq) {
+   case 60:
+      // Nothing right now
+      break;
+   case 12:
+      // Nothing right now
+   case 120: 
+      // Nothing right now
+   default:
+      usingFreq = 60 ;
+      break;
+   }
+
+   // Action
+   // All states do the same thing, converting the temperature and print it on the LCD panel
+   if (printValue) { // only print if ADC value has been changed
+      float tempurature_c;
+      float tempurature_f; 
+      tempurature_c = 147.5 - (75 * 3.3 * ADC_value / 4096);
+      tempurature_f = tempurature_c * 1.8 + 32; 
+      sprintf(temperatureString, "The current temperature is %lf C, %lf F. \n", tempurature_c, tempurature_f); 
+      LCD_PrintTempearture(temperatureString);
+      LCD_PrintClock(clockString);
+      printValue ^= 1;
+   }
+
 }
 
 void LCD_DrawButtons(void) {
@@ -89,6 +114,7 @@ void PortJ_Handler(void) {
       PLL_Init(PRESET3); 
       GPTMTAILR_TIMER_0 = 12000000; 
       sprintf(clockString, "The current clock frequency is 12 MHz. \n");
+      usingFreq = 12; 
       LCD_PrintClock(clockString);
    }
 
@@ -97,6 +123,7 @@ void PortJ_Handler(void) {
       PLL_Init(PRESET1); 
       GPTMTAILR_TIMER_0 = 120000000; 
       sprintf(clockString, "The current clock frequency is 120 MHz. \n");
+      usingFreq = 120; 
       LCD_PrintClock(clockString);
    }
 }

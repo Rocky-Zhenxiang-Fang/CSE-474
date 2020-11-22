@@ -32,8 +32,6 @@ int main(void) {
    LCD_Init();                // Initialize LCD panel
 
    float tempurature_c;
-   long touchedX; 
-   long touchedY; 
    snprintf(clockString, 50, "The current clock frequency is 60 MHz. \n");
    while(1) {
 
