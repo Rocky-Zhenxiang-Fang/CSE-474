@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "task2_a_header.h"
 #include "SSD2119_Display.h"
+#include "SSD2119_Touch.h"
 #include "PLL_Header.h" 
 
 enum TrafficLightStatus {TrafficLightOff, TrafficLightGo, TrafficLightWarn, TrafficLightStop} LightState; 
@@ -22,9 +23,11 @@ unsigned char stateChanged = 0; // Indicates that a state has been changed, so t
 
 int main() {
    PLL_Init(PRESET2);   // Using 60Hz clock
+   LCD_Init();                // Initialize LCD panel
+   Touch_Init();              // Initialize touch function of LCD
+   DrawUI(); 
    SetupGPIO(); 
    SetupTimer();
-   LCD_Init();                // Initialize LCD panel
    LightState = TrafficLightOff;
    while (1) {
       TickTrafficLight();
@@ -140,6 +143,14 @@ void Timer2A_Handler(void) { // ped buttom timer
    }
 }
 
+void DrawUI(void) {
+   LCD_DrawRect(10, 10, 140, 60, Color4[11]); 
+   LCD_DrawRect(170, 10, 140, 60, Color4[13]); 
+   LCD_SetCursor(40, 35); 
+   LCD_PrintString("System button"); 
+   LCD_SetCursor(190, 35); 
+   LCD_PrintString("Pedestrian button");
+}
 void PortL_Handler(void) {
    if (((GPIOMIS_L & (1 << sysButton)) >> sysButton) == 0x1) { // sysButton is pressed
       GPIOICR_L |= 0x1 << sysButton; // clear interupt from sysButton

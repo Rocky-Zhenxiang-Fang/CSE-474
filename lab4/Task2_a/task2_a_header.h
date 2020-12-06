@@ -66,13 +66,13 @@
 #define sysButton 0x0 // PL0
 #define pedButton 0x1 // PL1
 
-// main excecution function, where finite state system is defined
-void TickTrafficLight(void);
-
 // Preset frequency for 120 MHZ, 60 MHZ, and 12 MHZ clock
 // Pass in the preset to Timer1_Init and PLL_Init to configure
 // the system clock to specified frequency
 enum frequency {PRESET1 = 120, PRESET2 = 60, PRESET3 = 12};
+
+// main excecution function, where finite state system is defined
+void TickTrafficLight(void);
 
 // Initializes the PLL module and generates a system clock frequency
 // that equal to the frequency preset.
@@ -81,6 +81,9 @@ int PLL_Init(enum frequency freq);
 
 // Set up RCGCGPIO
 void SetupGPIO(void); 
+
+// Draws buttons on the LCD panel
+void DrawUI(void);
 
 // Set up external switches
 void ExternSwitchInit(void);
