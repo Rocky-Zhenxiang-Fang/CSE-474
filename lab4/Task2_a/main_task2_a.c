@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "task2_a_header.h"
+#include "SSD2119_Display.h"
 
 enum TrafficLightStatus {TrafficLightOff, TrafficLightGo, TrafficLightWarn, TrafficLightStop} LightState; 
 unsigned char sysPressed = 0; // Indicates if sys_botton is pressed
@@ -20,6 +21,7 @@ unsigned char pedPressed = 0; // Indicates if ped_botton is pressed
 int main() {
    SetupGPIO(); 
    SetupTimer();
+   LCD_Init();                // Initialize LCD panel
    LightState = TrafficLightOff;
    while (1) {
       TickTrafficLight();
