@@ -12,6 +12,7 @@
 #include "SSD2119_Touch.h"
 #include "task1_c_header.h"
 
+
 uint32_t ADC_value = 0;
 unsigned char printValue = 0; 
 char temperatureString[50];   // The string to be printed at the first line containing the temeperature
@@ -88,6 +89,7 @@ void TickFreq(void) {
       else {
          usingFreq = PRESET3;
       }
+      break;
    case 120: 
       if (pressedButton == 12) {
          usingFreq = PRESET3; 
@@ -95,6 +97,7 @@ void TickFreq(void) {
       else {
          usingFreq = PRESET1;
       }
+      break;
    default:
       usingFreq = 60 ;
       break;
@@ -137,10 +140,10 @@ void TickFreq(void) {
 
 }
 char ButtonPressed(void) {
-   if ((700 <= LastXPos && LastXPos <= 1400) && (750 <= LastYPos && LastYPos <=1080)) {
+   if ((650 <= LastXPos && LastXPos <= 1400) && (700 <= LastYPos && LastYPos <=1200)) {
       return 12; 
    }
-   else if ((1490 <= LastXPos && LastXPos <= 1950) && (750 <= LastYPos && LastYPos <=1080)) {
+   else if ((1490 <= LastXPos && LastXPos <= 2000) && (700 <= LastYPos && LastYPos <=1200)) {
       return 120; 
    }
    else {
