@@ -13,12 +13,15 @@
 #include <stdio.h>
 #include "task2_a_header.h"
 #include "SSD2119_Display.h"
+#include "PLL_Header.h" 
 
 enum TrafficLightStatus {TrafficLightOff, TrafficLightGo, TrafficLightWarn, TrafficLightStop} LightState; 
 unsigned char sysPressed = 0; // Indicates if sys_botton is pressed
 unsigned char pedPressed = 0; // Indicates if ped_botton is pressed
+unsigned char stateChanged = 0; // Indicates that a state has been changed, so the LCD needs to turn black
 
 int main() {
+   PLL_Init(PRESET2);   // Using 60Hz clock
    SetupGPIO(); 
    SetupTimer();
    LCD_Init();                // Initialize LCD panel
@@ -52,6 +55,11 @@ void TickTrafficLight(void) {
          break;
   }
 
+   if (stateChanged == 1) {
+      stateChanged = 0; 
+      LCD_ColorFill(Color4[0]);
+   }
+
    switch (LightState) {
       case TrafficLightOff:
          SysOff();
@@ -74,6 +82,7 @@ void TickTrafficLight(void) {
          RedOn();
          YellowOff();
          break;
+         
       default:
          SysOff();
          break;
@@ -83,21 +92,25 @@ void TickTrafficLight(void) {
 void Timer0A_Handler(void) { // 5 sec timer
    GPTMICR_TIMER_0 |= (1<<0); // Clear interupt flag
    switch (LightState) {
-   case TrafficLightGo:
-      LightState = TrafficLightStop; 
-      break;
+      case TrafficLightGo:
+         LightState = TrafficLightStop;
+         stateChanged = 1; 
+         break;
 
-   case TrafficLightWarn:
-      LightState = TrafficLightStop; 
-      break;
+      case TrafficLightWarn:
+         LightState = TrafficLightStop;
+         stateChanged = 1;
+         break;
 
-   case TrafficLightStop:
-      LightState = TrafficLightGo; 
-      break;
-      
-   default:
-      LightState = TrafficLightOff;
-      break;
+      case TrafficLightStop:
+         LightState = TrafficLightGo; 
+         stateChanged = 1;
+         break;
+         
+      default:
+         LightState = TrafficLightOff;
+         stateChanged = 1;
+         break;
    }
 }
 
@@ -106,11 +119,14 @@ void Timer1A_Handler(void) { // system buttom timer
    if (sysPressed) { // the system only responses when the button is held
       if (LightState == TrafficLightOff) {
          LightState = TrafficLightStop; 
+         stateChanged = 1;
          GPTMCTL_TIMER_0 |= (1<<0); // starts timer_0 since the system is on
       }
       else {
          LightState = TrafficLightOff; // Stops the system
+         stateChanged = 1;
          GPTMCTL_TIMER_0 &= ~(1<<0); //Disables timer 0_A, set 0 to field 0
+         GPTMTAV_TIMER_0 = 60000000 * 5; // reloads the timer value
       }
    }
 }
@@ -118,7 +134,8 @@ void Timer1A_Handler(void) { // system buttom timer
 void Timer2A_Handler(void) { // ped buttom timer
    GPTMICR_TIMER_2 |= (1<<0); // Clear interupt flag
    if (LightState == TrafficLightGo) {
-      LightState = TrafficLightWarn; 
+      LightState = TrafficLightWarn;
+      stateChanged = 1;
       GPTMTAV_TIMER_0 = 60000000 * 5; // reloads the timer value
    }
 }
@@ -158,6 +175,53 @@ void SetupGPIO(void) {
    delay ++ ;
    ExternSwitchInit();
    LEDInit();
+}
+
+int PLL_Init(enum frequency freq) {
+    // Do NOT modify this function.
+    MOSCCTL &= ~(0x4);                      // Power up MOSC
+    MOSCCTL &= ~(0x8);                      // Enable MOSC
+    while ((RIS & 0x100) == 0) {};          // Wait for MOSC to be ready
+    RSCLKCFG |= (0x3 << 20);                // Select MOSC as system clock source
+    RSCLKCFG |= (0x3 << 24);                // Select MOSC as PLL clock source
+
+    PLLFREQ0 |= 0x60;                       // Set MINT field
+    PLLFREQ1 |= 0x4;                        // Set N field
+
+    MEMTIM0 &= ~((0xF << 22) | (0xF << 6));     // Reset FBCHT and EBCHT
+    MEMTIM0 &= ~((0xF << 16) | (0xF << 0));     // Reset EWS and FWS
+    MEMTIM0 &= ~((0x1 << 21) | (0x1 << 5));     // Reset FBCE and EBCE
+
+    RSCLKCFG &= ~(0x1 << 28);                   // Temporarilly bypass PLL
+
+    switch (freq) {
+        case 120:
+            MEMTIM0 |= (0x6 << 22) | (0x6 << 6);    // Set FBCHT and EBCHT
+            MEMTIM0 |= (0x5 << 16) | (0x5 << 0);    // Set EWS and FWS
+            RSCLKCFG |= 0x3;                        // Set PSYSDIV to use 120 MHZ clock
+            RSCLKCFG &= ~0x3FC;                     // Update PSYSDIV field
+            break;
+        case 60:
+            MEMTIM0 |= (0x3 << 22) | (0x3 << 6);    // Set FBCHT and EBCHT
+            MEMTIM0 |= (0x2 << 16) | (0x2 << 0);    // Set EWS and FWS
+            RSCLKCFG |= 0x7;                        // Set PSYSDIV to use 60 MHZ clock
+            RSCLKCFG &= ~0x3F8;                     // Update PSYSDIV field
+            break;
+        case 12:
+            MEMTIM0 |= (0x1 << 21) | (0x1 << 5);    // Set FBCE and EBCE
+            RSCLKCFG |= 0x27;                       // Set PSYSDIV to use 12 MHZ clock
+            RSCLKCFG &= ~0x3D8;                     // Update PSYSDIV field
+            break;
+        default:
+            return -1;
+    }
+
+    RSCLKCFG |= (0x1 << 30);                // Enable new PLL settings
+    PLLFREQ0 |= (0x1 << 23);                // Power up PLL
+    while ((PLLSTAT & 0x1) == 0) {};        // Wait for PLL to lock and stabilize
+
+    RSCLKCFG |= (0x1u << 31) | (0x1 << 28);  // Use PLL and update Memory Timing Register
+    return 1;
 }
 
 void ExternSwitchInit (void) {
@@ -232,6 +296,7 @@ void SetupTimer(void) {
 
 void GreenOn(void) {
    GPIODATA_L |= 0x10;
+   LCD_DrawFilledCircle(64, 120, 32, Color4[10]);
 }
 
 void GreenOff(void) {
@@ -240,6 +305,7 @@ void GreenOff(void) {
 
 void RedOn(void) {
    GPIODATA_L |= 0x04;
+   LCD_DrawFilledCircle(256, 120, 32, Color4[12]); 
 }
 
 void RedOff(void) {
@@ -248,6 +314,7 @@ void RedOff(void) {
 
 void YellowOn(void) {
    GPIODATA_L |= 0x08;
+   LCD_DrawFilledCircle(160, 120, 32, Color4[14]);
 }
 
 void YellowOff(void) {
