@@ -94,23 +94,18 @@ void LEDInit (void);
 // Set up timer
 void SetupTimer(void);
 
+// Reads touches from the LCD and decides whether any of the touch is pressed
+void ReadButton(void);
+
 // Turn on the green LED
 void GreenOn(void);
-
-// Turn off the green LED
-void GreenOff(void);
 
 // Turn on the red LED
 void RedOn(void);
 
-// Turn off the red LED
-void RedOff(void);
-
 // Turn on the yellow LED
 void YellowOn(void);
 
-// Turn off the yellow LED
-void YellowOff(void);
 
 // Turn off the system, which is turn off all LEDs
 void SysOff (void); 

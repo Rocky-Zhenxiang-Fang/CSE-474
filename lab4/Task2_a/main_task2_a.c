@@ -20,6 +20,8 @@ enum TrafficLightStatus {TrafficLightOff, TrafficLightGo, TrafficLightWarn, Traf
 unsigned char sysPressed = 0; // Indicates if sys_botton is pressed
 unsigned char pedPressed = 0; // Indicates if ped_botton is pressed
 unsigned char stateChanged = 0; // Indicates that a state has been changed, so the LCD needs to turn black
+unsigned short LastXPos = 0;   // Indicates the x coordinate of the last touch of the LCD
+unsigned short LastYPos = 0; // Indicates the y coordinate of the last touch of the LCD
 
 int main() {
    PLL_Init(PRESET2);   // Using 60Hz clock
@@ -30,6 +32,7 @@ int main() {
    SetupTimer();
    LightState = TrafficLightOff;
    while (1) {
+      ReadButton(); 
       TickTrafficLight();
    }
    return 0;
@@ -60,7 +63,7 @@ void TickTrafficLight(void) {
 
    if (stateChanged == 1) {
       stateChanged = 0; 
-      LCD_ColorFill(Color4[0]);
+      LCD_DrawFilledRect(0, 80, 320, 150, Color4[0]);
    }
 
    switch (LightState) {
@@ -70,20 +73,14 @@ void TickTrafficLight(void) {
 
       case TrafficLightGo:
          GreenOn();
-         RedOff();
-         YellowOff();
          break; 
 
       case TrafficLightWarn:
-         GreenOff();
-         RedOff();
          YellowOn();
          break;
 
       case TrafficLightStop: 
-         GreenOff();
          RedOn();
-         YellowOff();
          break;
          
       default:
@@ -151,31 +148,44 @@ void DrawUI(void) {
    LCD_SetCursor(190, 35); 
    LCD_PrintString("Pedestrian button");
 }
-void PortL_Handler(void) {
-   if (((GPIOMIS_L & (1 << sysButton)) >> sysButton) == 0x1) { // sysButton is pressed
-      GPIOICR_L |= 0x1 << sysButton; // clear interupt from sysButton
-      sysPressed ^= 1; //filp the state of sys button
-      if (sysPressed == 1) { // start holding sys button
-         GPTMICR_TIMER_1 |= (1<<0); // Clear interupt flag
-         GPTMCTL_TIMER_1 |= (1<<0); // Enables timer 1_A, set 1 to field 0
-      }
-      else {
-         GPTMCTL_TIMER_1 &= ~(1<<0); // Disables timer 1_A, set 0 to field 0
-      }
+
+void ReadButton(void) {
+   LastXPos = Touch_ReadX(); 
+   LastYPos = Touch_ReadY();
+   if ((600 <= LastXPos && LastXPos <= 1450) && (1430 <= LastYPos && LastYPos <= 1650)) {
+      sysPressed = 1;
+      pedPressed = 0; 
+   } 
+   else if ((1460 <= LastXPos && LastXPos <= 2000) && (1430 <= LastYPos && LastYPos <= 1650)) {
+      sysPressed = 0;
+      pedPressed = 1; 
+   }
+   else {
+      sysPressed = 0;
+      pedPressed = 0; 
    }
 
-   if (((GPIOMIS_L & (1 << pedButton)) >> pedButton) == 0x1) { // pedButton is pressed
-      GPIOICR_L |= 0x1 << pedButton; // clear interupt from pedButton
-      pedPressed ^= 1; //filp the state of ped button
-      if (pedPressed == 1) { // if the button is pressed down
-         if (LightState == TrafficLightGo) {// only starts the timer when it is pressed at the Go state
-            GPTMICR_TIMER_2 |= (1<<0); // Clear interupt flag
-            GPTMCTL_TIMER_2 |= (1<<0); // starts timer_2, ped timer
-         }
+   if (sysPressed == 1 && pedPressed == 0) { // Action of the system button
+      if ((GPTMCTL_TIMER_1 & 0x1) != 1) { // The system button timer is disabled
+         GPTMICR_TIMER_1 |= (1<<0); // Clear interupt flag
+         GPTMTAILR_TIMER_1 = 60000000 * 2;  // Reloads value
+         GPTMCTL_TIMER_1 |= (1<<0); // Enables timer 1_A, set 1 to field 0
       }
-      else {
-         GPTMCTL_TIMER_2 &= ~(1<<0); // Disables timer 2_A, set 0 to field 0
+   }
+   else if (sysPressed == 0 && pedPressed == 1){ // Action of the pedstrain button
+      if ((GPTMCTL_TIMER_2 & 0x1) != 1) { // The pedstrain button timer is disabled
+         GPTMICR_TIMER_2 |= (1<<0); // Clear interupt flag
+         GPTMTAILR_TIMER_2 = 60000000 * 2;  // Reloads value
+         GPTMCTL_TIMER_2 |= (1<<0); // Enables timer 2_A, set 1 to field 0
       }
+   }
+   else { // No button is held
+      // Disables button timers
+      GPTMCTL_TIMER_1 &= ~(1<<0); //Disables timer 1_A, set 0 to field 0
+      GPTMCTL_TIMER_2 &= ~(1<<0); //Disables timer 2_A, set 0 to field 0
+      // reloads timer value
+      GPTMTAILR_TIMER_1 = 60000000 * 2; 
+      GPTMTAILR_TIMER_2 = 60000000 * 2; 
    }
 }
 
@@ -299,10 +309,10 @@ void SetupTimer(void) {
    GPTMIMR_TIMER_0 |= (0x1<<0); // Set interupt mode to time out. Set field 0 to 1
    GPTMIMR_TIMER_1 |= (0x1<<0); // Set interupt mode to time out. Set field 0 to 1
    GPTMIMR_TIMER_2 |= (0x1<<0); // Set interupt mode to time out. Set field 0 to 1
+
    NVIC_EN0 |= (0x1<<19); // Enables timer_0 interrupt. Set field 19 to 1
    NVIC_EN0 |= (0x1<<21); // Enables timer_1 interrupt. Set field 21 to 1
    NVIC_EN0 |= (0x1<<23); // Enables timer_2 interrupt. Set field 23 to 1
-   //step 9
 }
 
 void GreenOn(void) {
@@ -310,17 +320,9 @@ void GreenOn(void) {
    LCD_DrawFilledCircle(64, 120, 32, Color4[10]);
 }
 
-void GreenOff(void) {
-   GPIODATA_L &= ~0x10;
-}
-
 void RedOn(void) {
    GPIODATA_L |= 0x04;
    LCD_DrawFilledCircle(256, 120, 32, Color4[12]); 
-}
-
-void RedOff(void) {
-   GPIODATA_L &= ~0x04;
 }
 
 void YellowOn(void) {
@@ -328,12 +330,6 @@ void YellowOn(void) {
    LCD_DrawFilledCircle(160, 120, 32, Color4[14]);
 }
 
-void YellowOff(void) {
-   GPIODATA_L &= ~0x08;
-}
-
 void SysOff (void) {
-   RedOff();
-   GreenOff();
-   YellowOff();
+   LCD_DrawFilledRect(0, 80, 320, 150, Color4[0]);
 }
